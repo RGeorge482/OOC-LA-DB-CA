@@ -3,7 +3,11 @@ package ooc.la.db.ca;
 
 /**
  *
- * @author 35386
+ * @Mariano Wellington
+ * student number
+ * 
+ * @Gheorghita Rata 
+ * student number
  */
 public class OOCLADBCA {
 
@@ -12,6 +16,7 @@ public class OOCLADBCA {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("Hello!");
     }
     
 }
