@@ -16,25 +16,51 @@ public class User implements UserInterface {
     protected int id;
     protected String name;
     protected String surname;
-    protected int phoneNumber;
-    protected String userPassword;
-    protected ArrayList<UserInterface> users;
+    protected int phone_number;
+    protected String user_password;
+    protected String email_address;
     
-    //I HAVE THE ARRAY LIST OF USERS IN HERE BECAUSE EVERY TIME I ADD ONE USER IT SHOULD BE ADDED TO THIS LIST
-    
-    /**
+   /**
      * Constructor is called once method register is activated
      * @param name
      * @param surname
-     * @param phoneNumber
-     * @param userPassword
+     * @param phone_number
+     * @param user_password
+     * @param email_address
      */
-    public User(String name, String surname, int phoneNumber, String userPassword) {
+    public User(String name, String surname, int phone_number, String user_password, String email_address) {//one constructor for export data to db
         this.name = name;
         this.surname = surname;
-        this.phoneNumber = phoneNumber;
-        this.userPassword = userPassword;
+        this.phone_number = phone_number;
+        this.user_password = user_password;
+        this.email_address = email_address;
     }
+    
+    public User(int id, String name, String surname, int phone_number, String user_password, String email_address){//constructor to import data from db with id
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.phone_number = phone_number;
+        this.user_password = user_password;
+        this.email_address = email_address;
+    }
+    
+    public String getUserPassword() {
+        return user_password;
+    }
+
+    public void setUserPassword(String user_password) {
+        this.user_password = user_password;
+    }
+
+    public String getEmailAddress() {
+        return email_address;
+    }
+
+    public void setEmailAddress(String email_address) {
+        this.email_address = email_address;
+    }
+    protected ArrayList<UserInterface> users;
 
     @Override
     public boolean logIn() {
@@ -69,20 +95,6 @@ public class User implements UserInterface {
         this.users = users;
     }
 
-    /*@Override
-    public ArrayList<UserInterface> signIn(int id) {
-        //Creating an array list of users
-        ArrayList<UserInterface> usersList = new ArrayList<>();
-        //instantiating a new user object 
-        User newUser = new User(id);
-        //adding to array
-        usersList.add(newUser);
-        
-        newUser.setUsers(usersList);
-        
-        return usersList;
-    }*/
-
     public int getId() {
         return id;
     }
@@ -108,36 +120,25 @@ public class User implements UserInterface {
     }
 
     public int getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(int phone_number) {
+        this.phone_number = phone_number;
     }
 
     public String getPassword() {
-        return userPassword;
+        return user_password;
     }
 
-    public void setPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setPassword(String user_password) {
+        this.user_password = user_password;
     }
-    
-    
-    
-    //MAYBE SET USERS HAS TO BE APPLIED AFTER USER IS ADDED TO THE LIST IN ORDER TO HAVE ACCESS TO IT
+
     @Override
     public String toString() {
-        return "User{" + "name=" + name + ", surname=" + surname + ", phoneNumber=" + phoneNumber + '}' + "\n";
+        return "User{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", phone_number=" + phone_number + '}' + "\n";
     }
-/*
-    public HashMap<User, String> setPassword(String userName, String Password) {
-        HashMap<String, String> setPassword = new HashMap<>();
-       
-        
-    }
-  */  
-    
     
     
     

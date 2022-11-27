@@ -21,24 +21,24 @@ public class UserController {
     private Administrator admin; //CREATING THIS ATTRIBUTES SO I CAN ACCESS THOSE METHODS
     private User user;
     private HeaderClass headers;
-    private DatabaseWriter dataOutput;
-    private DatabaseReader dataInput;
+    private DatabaseWriter data_output;
+    private DatabaseReader data_input;
     private boolean inDev = true;
-    private UserData userData;
+    private UserData user_data;
     
-    public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter dataOutput, DatabaseReader dataInput, UserData userData) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter data_output, DatabaseReader data_input, UserData user_data) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         this.headers = headers;
         this.user = user;
         this.admin = admin;
-        this.dataOutput = dataOutput;
-        this.dataInput = dataInput;
-        this.userData = userData;
+        this.data_output = data_output;
+        this.data_input = data_input;
+        this.user_data = user_data;
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Scanner mySc = new Scanner(System.in);
 
         System.out.println("");
 
-        dataOutput.databaseSetup();//RETURNS TRUE IF WORKS
+        data_output.databaseSetup();//RETURNS TRUE IF WORKS
 
         ArrayList<UserInterface> users = new ArrayList<>(); // CREATING A NEW ARRAY LIST TO RECEIVE REGISTERED USERS
 
@@ -51,6 +51,7 @@ public class UserController {
         do {
             headers.accessMenu();//USER OR ADMIN
             accessMenuUserChoice = myUt.GetUserInt("Type one of the options above: ", 1, 2);//GIVE THE USER ADMIN OR USER OPTIONS
+            System.out.println("");
             switch (accessMenuUserChoice) {
                 case 1://CASE USER SELECTS USER OPTION
                     headers.userLogin();
@@ -58,8 +59,9 @@ public class UserController {
                     System.out.println("");
                     switch (userSignLogin) {
                         case 1://USER SELECTS REGISTER 
-                            int id = 1;
-
+                            System.out.println("Please, type your email address");
+                            String emailAddress = mySc.next();
+                            System.out.println("");
                             String name = myUt.getUserInput("Please, type your first name: ");
                             System.out.println("");
                             String surname = myUt.getUserInput("Please, type your surname: ");
@@ -69,11 +71,11 @@ public class UserController {
                             System.out.print("Please type a password: ");
                             String userPassword = mySc.next();
 
-                            user = new User(name, surname, phoneNumber, userPassword);
+                            user = new User(name, surname, phoneNumber, userPassword, emailAddress);
 
                             users.add(user);
 
-                            dataOutput.insertUserIntoDB(user);//METHOD TO PUSH INFO TO DB
+                            data_output.insertUserIntoDB(user);//METHOD TO PUSH INFO TO DB
 
                             break;
 
@@ -83,7 +85,7 @@ public class UserController {
                             System.out.print("Please, type your password: ");
                             String userPasswordLogin = mySc.nextLine();
 
-                            boolean userExists = (dataInput.userFound(userNameLogin, userPasswordLogin)); //method returns true if user exists and pass is correct
+                            boolean userExists = (data_input.user_found(userNameLogin, userPasswordLogin)); //method returns true if user exists and pass is correct
 
                             if (userExists) {
                                 //if user exists maybe is a good idea to return an array list with all the info from this specific user 
@@ -104,27 +106,45 @@ public class UserController {
                                         
                                         switch (dataToBeChangedLowerCase) {
                                             case "name":
-                                                String oldName = myUt.getUserInput("Type your old name: ");
-                                                String newName = myUt.getUserInput("Type your new name: ");
-                                                System.out.println(dataOutput.updateUserInfo("name", newName, oldName));//I HAVE TO FIGURE HOW TO CHANGE INFO FROM ID AND NOT FROM NAME
+                                                String validation_user_name_case_change_name = myUt.getUserInput("Type your name: ");
+                                                System.out.println("Type your email address: ");//both info to check if user exists
+                                                String email_address_validation_case_change_name = mySc.next();
+                                                String new_name = myUt.getUserInput("Type your new name: ");//type old info 
+                                                System.out.println(data_output.updateUserInfo("name", validation_user_name_case_change_name , email_address_validation_case_change_name, validation_user_name_case_change_name, new_name));
                                                 break;
                                             case "surname":
-                                                String oldSurname = myUt.getUserInput("Type your old surname: ");
-                                                String newSurname = myUt.getUserInput("Type your new surname: ");
-                                                System.out.println(dataOutput.updateUserInfo("surname", newSurname, oldSurname));//I HAVE TO FIGURE HOW TO CHANGE INFO FROM ID AND NOT FROM NAME
+                                                String validation_user_name_case_change_surname = myUt.getUserInput("Type your name: ");
+                                                System.out.println("Type your email address: ");//both info to check if user exists
+                                                String email_address_validation_case_change_surname = mySc.next();
+                                                String old_surname = myUt.getUserInput("Type your old surname");
+                                                String new_surname = myUt.getUserInput("Type your new surname: ");//type old info 
+                                                System.out.println(data_output.updateUserInfo("surname", validation_user_name_case_change_surname , email_address_validation_case_change_surname, old_surname, new_surname));
                                                 break;
                                             case "phonenumber":
+                                                String validation_user_name_case_change_phonenum = myUt.getUserInput("Type your name: ");
+                                                System.out.println("Type your email address: ");//both info to check if user exists
+                                                String email_address_validation_case_change_phonenum = mySc.next();
                                                 int oldPhoneNumInt = myUt.GetUserInt("Type your old phone number: ", 0000000, 9999999);
                                                 String oldPhoneNumString = String.valueOf(oldPhoneNumInt);
                                                 int newPhoneNumInt = myUt.GetUserInt("Type your new phone number: ", 0000000, 9999999);
                                                 String newPhoneNumString = String.valueOf(newPhoneNumInt);
-                                                System.out.println(dataOutput.updateUserInfo("phonenumber", newPhoneNumString, oldPhoneNumString));//I HAVE TO FIGURE HOW TO CHANGE INFO FROM ID AND NOT FROM NAME
+                                                System.out.println(data_output.updateUserInfo("phone_number", validation_user_name_case_change_phonenum, email_address_validation_case_change_phonenum, oldPhoneNumString, newPhoneNumString));
                                                 break;
                                             case "password":
-                                                String oldPassword = myUt.getUserInput("Type your old password: ");
-                                                String newPassword = myUt.getUserInput("Type your new password: ");
-                                                System.out.println(dataOutput.updateUserInfo("userPassword", newPassword, oldPassword));//I HAVE TO FIGURE HOW TO CHANGE INFO FROM ID AND NOT FROM NAME
+                                                String validation_user_name_case_change_password = myUt.getUserInput("Type your name: ");
+                                                System.out.println("Type your email address: ");//both info to check if user exists
+                                                String email_address_validation_case_change_password = mySc.next();
+                                                String old_password = myUt.getUserInput("Type your old password");
+                                                String new_password = myUt.getUserInput("Type your new surname: ");//type old info 
+                                                System.out.println(data_output.updateUserInfo("user_password", validation_user_name_case_change_password , email_address_validation_case_change_password, old_password, new_password));
                                                 break;
+                                            case "email":
+                                                String validation_user_name_case_change_email = myUt.getUserInput("Type your name: ");
+                                                System.out.println("Type your email address: ");
+                                                String email_address_validation_case_change_email = mySc.next();
+                                                System.out.println("Type your new email address: ");
+                                                String new_email_address = mySc.next();
+                                                System.out.println(data_output.updateUserInfo("email_address", validation_user_name_case_change_email, email_address_validation_case_change_email, email_address_validation_case_change_email, new_email_address));
                                             default:
                                                 System.out.println("The attribute you want to change was not found.");
                                         }
@@ -144,13 +164,18 @@ public class UserController {
 
                     switch (adminInput) {
                         case 1:
+                            //CHANGE USERS OR ADMIN PROFILE??
                             break;
                         case 2://ADMIN CHOSE VIEW LIST OF USERS
-                            System.out.println(users = dataInput.inputData());
+                            System.out.println(users = data_input.inputData());
+                            break;
+                        case 3:
+                            int deleteUserByID = myUt.GetUserInt("Type the ID for the user you wish to exclude: ", 1, 100);
+                            data_output.delete(deleteUserByID);
                             break;
                     }
-
             }
+            System.out.println("");
             programHault = myUt.getUserValidInput("Would you like to return to the main menu? [y] or [n]");
         } while (programHault.equals("y"));//LOOP FOR THE USER TO RETURN TO MAIN HEADER
     }

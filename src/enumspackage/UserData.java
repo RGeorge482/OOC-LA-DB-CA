@@ -10,5 +10,5 @@ package enumspackage;
  * @author welli
  */
 public enum UserData {
-    NAME, SURNAME, PHONE_NUMBER, PASSWORD
+    NAME, SURNAME, PHONE_NUMBER, PASSWORD, EMAIL;
 }

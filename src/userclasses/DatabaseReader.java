@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -40,10 +39,12 @@ public class DatabaseReader {
 
             while (rs.next()) {//loop to get info from the whole databases
                 users.add(new User(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("surname"),
-                        rs.getInt("phoneNumber"),
-                        rs.getString("userPassword")
+                        rs.getInt("phone_number"),
+                        rs.getString("user_password"),
+                        rs.getString("email_address")
                 ));
             }
 
@@ -53,11 +54,9 @@ public class DatabaseReader {
         return users;//RETURNED USERS
     }
 
-    public boolean userFound(String name, String userPassword) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    public boolean user_found(String name, String user_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         
-        HashMap<String, String> userNamePassword = new HashMap<>();//Creating the hashmap to receive password and user name
-
         ResultSet rs;//var of type result set as this is the type sql returns
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -65,16 +64,15 @@ public class DatabaseReader {
                 ) {
             stmt.execute("USE equationssystem;");   
 
-            rs = stmt.executeQuery("SELECT name, userPassword from equationssystem"); //rs receiving value from querie
+            rs = stmt.executeQuery("SELECT name, user_password from equationssystem"); //rs receiving value from querie
 
             rs.next();
-            if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("userPassword").equals(userPassword))) {
+            if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("user_password").equals(user_password))) {
                 return true;
             }
             
             while(rs.next()){    
-                if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("userPassword").equals(userPassword))) {
-                    userNamePassword.put(rs.getString("name"), userPassword);
+                if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("user_password").equals(user_password))) {
                     return true;
                 }
             }

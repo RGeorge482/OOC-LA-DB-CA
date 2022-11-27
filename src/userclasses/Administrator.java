@@ -16,8 +16,8 @@ public class Administrator implements AdminInterface{
     private String name;
     private String surname;
     private int id;
-    private int phoneNumber;
-    private String emailAddress;
+    private int phone_number;
+    private String email_address;
     
     
     //THESE METHODS ARE ALLOWED ONCE THE ADMIN IS LOGGED IN 
@@ -64,19 +64,19 @@ public class Administrator implements AdminInterface{
     }
 
     public int getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
     public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phoneNumber;
     }
 
     public String getEmailAddress() {
-        return emailAddress;
+        return email_address;
     }
 
     public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+        this.email_address = emailAddress;
     }
 
     @Override

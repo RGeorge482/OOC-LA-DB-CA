@@ -27,7 +27,8 @@ public class OOCLADBCA {
      * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        User myUser = new User(null, null, -1, null);
+        
+        User myUser = new User(null, null, -1, null, null);
         HeaderClass myHeaders = new HeaderClass();
         Administrator myAdmin = new Administrator();
         DatabaseWriter dataOutput = new DatabaseWriter();
