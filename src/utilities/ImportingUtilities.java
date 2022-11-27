@@ -77,7 +77,7 @@ public class ImportingUtilities {
 
         String input = "";
         do {
-            System.out.print(prompt + " ");
+            System.out.println(prompt + " ");
             System.out.print("Please only type letters: ");
             input = myScanner.nextLine();
 

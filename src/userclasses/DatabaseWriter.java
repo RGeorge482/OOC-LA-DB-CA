@@ -7,6 +7,7 @@ package userclasses;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -69,16 +70,17 @@ public class DatabaseWriter {
         }
     }
     
-      public boolean updateUserInfo(String columnToBeChanged, String newInfo, int userID) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+      public boolean updateUserInfo(String columnToBeChanged, String newInfo, String oldInfo) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();//Creating the queries `statements`
-            stmt.execute("UPDATE equationssystem;");
-            stmt.execute("SET " + columnToBeChanged + "=" + newInfo +  "WHERE name = " + userID + " ");
+            stmt.execute("USE equationssystem;");
+            stmt.executeUpdate("UPDATE equationssystem SET "+columnToBeChanged+"='"+newInfo+"' WHERE "+columnToBeChanged+"='"+oldInfo+"'");
             return true;
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }

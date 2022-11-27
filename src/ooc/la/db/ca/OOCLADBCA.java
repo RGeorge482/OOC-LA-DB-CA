@@ -32,7 +32,8 @@ public class OOCLADBCA {
         Administrator myAdmin = new Administrator();
         DatabaseWriter dataOutput = new DatabaseWriter();
         DatabaseReader dataInput = new DatabaseReader();
-        UserController myControler = new UserController(myAdmin, myUser, myHeaders, dataOutput, dataInput);
+        
+        UserController myControler = new UserController(myAdmin, myUser, myHeaders, dataOutput, dataInput, null);
     }
     
 }

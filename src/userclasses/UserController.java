@@ -1,10 +1,11 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package userclasses;
 
+import enumspackage.UserData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ import utilities.ImportingUtilities;
 /**
  *
  * @author welli
+ * This class is where every other class talks to each other
  */
 public class UserController {
 
@@ -22,17 +24,16 @@ public class UserController {
     private DatabaseWriter dataOutput;
     private DatabaseReader dataInput;
     private boolean inDev = true;
-
-    /*
-    This class is where every other class talks to each other
-     */
-    public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter dataOutput, DatabaseReader dataInput) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    private UserData userData;
+    
+    public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter dataOutput, DatabaseReader dataInput, UserData userData) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         this.headers = headers;
         this.user = user;
         this.admin = admin;
         this.dataOutput = dataOutput;
         this.dataInput = dataInput;
-
+        this.userData = userData;
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Scanner mySc = new Scanner(System.in);
 
         System.out.println("");
@@ -88,19 +89,45 @@ public class UserController {
                                 //if user exists maybe is a good idea to return an array list with all the info from this specific user 
                                 headers.userMenuOptions();
                                 int loggedUserChoice = myUt.GetUserInt("Please type one of the options above: ", 1, 4);
+                                System.out.println("");
+                                
                                 switch (loggedUserChoice) {
                                     case 1://user wants to chenge info
+                                        for(UserData value : UserData.values()){
+                                            System.out.println(value);
+                                        }
+                                        System.out.println("");
+                                        
                                         String dataToBeChanged = myUt.getUserInput("Please type the info you would like to change -- ps. name");
-                                        String dataToBeChangedLowerCase = dataToBeChanged.toLowerCase();
+                                        
+                                        String dataToBeChangedLowerCase = dataToBeChanged.toLowerCase().replaceAll("\\s+",""); //also removes all spaces
+                                        
                                         switch (dataToBeChangedLowerCase) {
                                             case "name":
-                                                String newName = myUt.getUserInput("Type the new name: ");
-                                                int idUser = myUt.GetUserInt("Please type id", 1, 100);
-                                                dataOutput.updateUserInfo(dataToBeChangedLowerCase, newName, idUser);
+                                                String oldName = myUt.getUserInput("Type your old name: ");
+                                                String newName = myUt.getUserInput("Type your new name: ");
+                                                System.out.println(dataOutput.updateUserInfo("name", newName, oldName));//I HAVE TO FIGURE HOW TO CHANGE INFO FROM ID AND NOT FROM NAME
                                                 break;
+                                            case "surname":
+                                                String oldSurname = myUt.getUserInput("Type your old surname: ");
+                                                String newSurname = myUt.getUserInput("Type your new surname: ");
+                                                System.out.println(dataOutput.updateUserInfo("surname", newSurname, oldSurname));//I HAVE TO FIGURE HOW TO CHANGE INFO FROM ID AND NOT FROM NAME
+                                                break;
+                                            case "phonenumber":
+                                                int oldPhoneNumInt = myUt.GetUserInt("Type your old phone number: ", 0000000, 9999999);
+                                                String oldPhoneNumString = String.valueOf(oldPhoneNumInt);
+                                                int newPhoneNumInt = myUt.GetUserInt("Type your new phone number: ", 0000000, 9999999);
+                                                String newPhoneNumString = String.valueOf(newPhoneNumInt);
+                                                System.out.println(dataOutput.updateUserInfo("phonenumber", newPhoneNumString, oldPhoneNumString));//I HAVE TO FIGURE HOW TO CHANGE INFO FROM ID AND NOT FROM NAME
+                                                break;
+                                            case "password":
+                                                String oldPassword = myUt.getUserInput("Type your old password: ");
+                                                String newPassword = myUt.getUserInput("Type your new password: ");
+                                                System.out.println(dataOutput.updateUserInfo("userPassword", newPassword, oldPassword));//I HAVE TO FIGURE HOW TO CHANGE INFO FROM ID AND NOT FROM NAME
+                                                break;
+                                            default:
+                                                System.out.println("The attribute you want to change was not found.");
                                         }
-
-                                        String loggedUserUpdatedInfo = myUt.getUserInput("Please, type the new value: ");
 
                                 }
                             } else {
