@@ -5,7 +5,6 @@
  */
 package userclasses;
 
-import java.util.ArrayList;
 /**
  *
  * @author welli
@@ -20,19 +19,10 @@ public interface AdminInterface {
     
     /*
     Access List returns a list of all users within the databases
-    */
-    //public ArrayList<User> accessList();
-    /*
     Method is called when admin wants to remove user from the list of user
     returns the list without user removed
     
     PS. It could be a nice idea to create a list of users removed from this list
-    */
-    public ArrayList<User> removeUser();
-    
-    /*
-    Not sure yet how to review operations
-    The return value could be changed in the future
     */
     public void reviewOperations();
     

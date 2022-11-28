@@ -75,7 +75,7 @@ public class UserController {
 
                             users.add(user);
 
-                            data_output.insertUserIntoDB(user);//METHOD TO PUSH INFO TO DB
+                            user.register(user);//METHOD TO PUSH INFO TO DB
 
                             break;
 
@@ -110,7 +110,7 @@ public class UserController {
                                                 System.out.println("Type your email address: ");//both info to check if user exists
                                                 String email_address_validation_case_change_name = mySc.next();
                                                 String new_name = myUt.getUserInput("Type your new name: ");//type old info 
-                                                System.out.println(data_output.updateUserInfo("name", validation_user_name_case_change_name , email_address_validation_case_change_name, validation_user_name_case_change_name, new_name));
+                                                System.out.println(user.change_info("name", validation_user_name_case_change_name , email_address_validation_case_change_name, validation_user_name_case_change_name, new_name));
                                                 break;
                                             case "surname":
                                                 String validation_user_name_case_change_surname = myUt.getUserInput("Type your name: ");
@@ -118,7 +118,7 @@ public class UserController {
                                                 String email_address_validation_case_change_surname = mySc.next();
                                                 String old_surname = myUt.getUserInput("Type your old surname");
                                                 String new_surname = myUt.getUserInput("Type your new surname: ");//type old info 
-                                                System.out.println(data_output.updateUserInfo("surname", validation_user_name_case_change_surname , email_address_validation_case_change_surname, old_surname, new_surname));
+                                                System.out.println(user.change_info("surname", validation_user_name_case_change_surname , email_address_validation_case_change_surname, old_surname, new_surname));
                                                 break;
                                             case "phonenumber":
                                                 String validation_user_name_case_change_phonenum = myUt.getUserInput("Type your name: ");
@@ -128,7 +128,7 @@ public class UserController {
                                                 String oldPhoneNumString = String.valueOf(oldPhoneNumInt);
                                                 int newPhoneNumInt = myUt.GetUserInt("Type your new phone number: ", 0000000, 9999999);
                                                 String newPhoneNumString = String.valueOf(newPhoneNumInt);
-                                                System.out.println(data_output.updateUserInfo("phone_number", validation_user_name_case_change_phonenum, email_address_validation_case_change_phonenum, oldPhoneNumString, newPhoneNumString));
+                                                System.out.println(user.change_info("phone_number", validation_user_name_case_change_phonenum, email_address_validation_case_change_phonenum, oldPhoneNumString, newPhoneNumString));
                                                 break;
                                             case "password":
                                                 String validation_user_name_case_change_password = myUt.getUserInput("Type your name: ");
@@ -136,7 +136,7 @@ public class UserController {
                                                 String email_address_validation_case_change_password = mySc.next();
                                                 String old_password = myUt.getUserInput("Type your old password");
                                                 String new_password = myUt.getUserInput("Type your new surname: ");//type old info 
-                                                System.out.println(data_output.updateUserInfo("user_password", validation_user_name_case_change_password , email_address_validation_case_change_password, old_password, new_password));
+                                                System.out.println(user.change_info("user_password", validation_user_name_case_change_password , email_address_validation_case_change_password, old_password, new_password));
                                                 break;
                                             case "email":
                                                 String validation_user_name_case_change_email = myUt.getUserInput("Type your name: ");
@@ -144,7 +144,8 @@ public class UserController {
                                                 String email_address_validation_case_change_email = mySc.next();
                                                 System.out.println("Type your new email address: ");
                                                 String new_email_address = mySc.next();
-                                                System.out.println(data_output.updateUserInfo("email_address", validation_user_name_case_change_email, email_address_validation_case_change_email, email_address_validation_case_change_email, new_email_address));
+                                                System.out.println(user.change_info("email_address", validation_user_name_case_change_email, email_address_validation_case_change_email, email_address_validation_case_change_email, new_email_address));
+                                                break;
                                             default:
                                                 System.out.println("The attribute you want to change was not found.");
                                         }
@@ -167,11 +168,11 @@ public class UserController {
                             //CHANGE USERS OR ADMIN PROFILE??
                             break;
                         case 2://ADMIN CHOSE VIEW LIST OF USERS
-                            System.out.println(users = data_input.inputData());
+                            System.out.println(users = admin.access_list());
                             break;
                         case 3:
                             int deleteUserByID = myUt.GetUserInt("Type the ID for the user you wish to exclude: ", 1, 100);
-                            data_output.delete(deleteUserByID);
+                            admin.delete(deleteUserByID);
                             break;
                     }
             }
