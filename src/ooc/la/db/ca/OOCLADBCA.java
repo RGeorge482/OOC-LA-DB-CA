@@ -9,8 +9,8 @@ import userclasses.DatabaseWriter;
 import userclasses.HeaderClass;
 import userclasses.User;
 import userclasses.UserController;
-import SloveEquations.Solve2Equations;
-import SloveEquations.Solve3Equations;
+import SolveEquations.Solve2Equations;
+import SolveEquations.Solve3Equations;
 
 
 /**

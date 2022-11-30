@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import utilities.ImportingUtilities;
+import SolveEquations.Solve2Equations;
+import SolveEquations.Solve3Equations;
 
 /**
  *
@@ -25,6 +27,7 @@ public class UserController {
     private DatabaseReader data_input;
     private boolean inDev = true;
     private UserData user_data;
+   
     
     public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter data_output, DatabaseReader data_input, UserData user_data) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         this.headers = headers;
@@ -43,6 +46,11 @@ public class UserController {
         ArrayList<UserInterface> users = new ArrayList<>(); // CREATING A NEW ARRAY LIST TO RECEIVE REGISTERED USERS
 
         ImportingUtilities myUt = new ImportingUtilities();//Utilities to validate all the inputs
+        
+        Solve2Equations sloveTwoEqu = new Solve2Equations();
+        
+        Solve3Equations sloveThreeEqu = new Solve3Equations();
+        
 
         boolean valid = false;
         String programHault = "";
@@ -74,7 +82,7 @@ public class UserController {
                             user = new User(name, surname, phoneNumber, userPassword, emailAddress);
 
                             users.add(user);
-
+                                
                             user.register(user);//METHOD TO PUSH INFO TO DB
 
                             break;
@@ -148,15 +156,37 @@ public class UserController {
                                                 break;
                                             default:
                                                 System.out.println("The attribute you want to change was not found.");
-                                        }
-
-                                }
-                            } else {
+                                            }
+                                       
+                                    case 2: // user want to solve equations with two variable use the equations for CA requirements
+                                        
+                                        System.out.println("Please enter the equations in format: x+y+z+1 = 0");                                                                                                                  
+                                        String firstEquation = myUt.getUserEquation("Please enter first equation: ");
+                                        String secondEquation = myUt.getUserEquation("Please enter second equation: ");
+                                        System.out.println("The equations are: " + firstEquation + " and " + secondEquation);
+                                                      
+                                        System.out.println(sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation)); // print the result 
+                                        break;
+                                      // result 1.0   0
+                                      
+                                    case 3: // user want to solve equations with three variable
+                                        
+                                        System.out.println("Please enter the equations in format: x+y+z=1");                                                                                                                  
+                                        String firstEquation3 = myUt.getUserEquation("Please enter first equation: ");
+                                        String secondEquation3 = myUt.getUserEquation("Please enter second equation: ");
+                                        String thirdEquation = myUt.getUserEquation("Please enter third equation: ");
+                                        System.out.println("The equations are: " + firstEquation3 + " and " + secondEquation3 + " and " + thirdEquation);
+                                                      
+                                        System.out.println(sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3,thirdEquation)); // print the result 
+                                        break;
+                                        // result 42.0  182.0   121.0
+                                    }
+                                } else {
                                 System.out.println("Your details seems to be incorrect, please try again!");
-                            }
-                            break;
-                    }
-                    break;
+                                }
+                                break;
+                        }
+                        break;
 
                 case 2: //CASE USER IS ADMIN
                     headers.adminMenuOptions();

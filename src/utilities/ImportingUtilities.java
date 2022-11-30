@@ -154,11 +154,31 @@ public class ImportingUtilities {
         this.num = num;
         this.prompt = prompt;
     }
+    
+      /**
+     * Get the user to type a equation if mistaken it is asked once again.
+     * @param prompt Message to user
+     * @return input, user equation
+     */
+    public String getUserEquation(String prompt) {
+    Scanner myScanner = new Scanner(System.in);
+
+        String input = "";
+        do {
+            System.out.println(prompt + " ");
+            //System.out.print("Please only type x, y,+,- and numbers : ");
+            input = myScanner.nextLine();
+
+        } while (!input.matches("[a-z0-9+-= ]+"));
+
+        return input;
+    }
 
     public static void main(String[] args) {
         // TODO code application logic here
         ImportingUtilities myNew = new ImportingUtilities();
         myNew.line(30, "-");
     }
+    
 
 }
