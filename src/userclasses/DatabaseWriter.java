@@ -32,18 +32,7 @@ public class DatabaseWriter {
             Statement stmt = conn.createStatement();
             //THIS METHOD IS USED TO DO THE QUERYES
             stmt.execute("CREATE SCHEMA IF NOT EXISTS equationssystem");//USING METHOD ABOVE TO EXECUTE THE QUERIE ONE BY ONE
-            stmt.execute("USE equationssystem;");
-
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS " + dbName + "("
-                    + "`id` INT(100) NOT NULL AUTO_INCREMENT,"
-                    + "`name` VARCHAR(25),"
-                    + "`surname` VARCHAR(25),"
-                    + "`phone_number` VARCHAR(10),"
-                    + "`user_password` VARCHAR(20),"
-                    + "`email_address` VARCHAR (50),"
-                    + "PRIMARY KEY(`id`)"
-                    + ")");
+            
             return true;
 
         } catch (SQLException e) {
