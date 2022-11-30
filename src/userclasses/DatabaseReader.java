@@ -32,7 +32,7 @@ public class DatabaseReader {
                 ) {
             stmt.execute("USE equationssystem;");   
 
-            rs = stmt.executeQuery("SELECT name, user_password from equationssystem"); //rs receiving value from querie
+            rs = stmt.executeQuery("SELECT name, user_password from user_info"); //rs receiving value from querie
 
             rs.next();//code for the first line of db table
             if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("user_password").equals(user_password))) {
