@@ -80,7 +80,7 @@ public class ImportingUtilities {
             System.out.println(prompt + " ");
             System.out.print("Please only type letters: ");
             input = myScanner.nextLine();
-
+            System.out.println("");
         } while (!input.matches("[a-zA-Z ]+"));
 
         return input;
@@ -112,7 +112,7 @@ public class ImportingUtilities {
                 myScanner.next();
             }
         } while (!valid);
-
+        System.out.println("");
         return (input);
     }
 

@@ -171,8 +171,39 @@ public class Administrator implements AdminInterface {
         this.email_address = emailAddress;
     }
 
-    public void change_admin_info() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String update_admin_info(String columnToBeChanged, String admin_name, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        ResultSet rs;
+        boolean userExists;
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            Statement stmt = conn.createStatement();//Creating the queries `statements`
+            //IF USER NAME AND EMAIL ADDRESS MATCHES THAN WE ALLOW CHANGES 
+            stmt.execute("USE equationssystem;");
+
+            rs = stmt.executeQuery("SELECT admin_name FROM admin_info");
+
+            rs.next();//code below is for the first line in db
+            //user needs to be in the databases matching email address and name so they can make changes
+            if (rs.getString("admin_name").equalsIgnoreCase(admin_name)) {
+
+                stmt.execute("USE equationssystem;");
+                stmt.executeUpdate("UPDATE admin_info SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "'");
+                return "Updated successfully";
+            }
+            while (rs.next()) {//code for the rest of the lines in db
+                if (rs.getString("admin_name").equalsIgnoreCase(admin_name)) {
+                    stmt.execute("USE admin_info;");
+                    stmt.executeUpdate("UPDATE user_info SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "'");
+                    return "Updated successfully";
+                }
+            }
+            return "Your administrator details are incorrect. Please try again";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Your administrator details are incorrect. Please try again";
+        }
     }
 
 }

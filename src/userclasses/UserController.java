@@ -12,6 +12,7 @@ import java.util.Scanner;
 import utilities.ImportingUtilities;
 import SolveEquations.Solve2Equations;
 import SolveEquations.Solve3Equations;
+import enumspackage.AdminInfo;
 
 /**
  *
@@ -26,12 +27,7 @@ public class UserController {
     private DatabaseReader data_input;
     private boolean inDev = true;
     private UserData user_data;
-<<<<<<< HEAD
-   
-    
-=======
 
->>>>>>> a12695dcbf519a8f5c3dde667cfaad30d6ab2f0f
     public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter data_output, DatabaseReader data_input, UserData user_data) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         this.headers = headers;
         this.user = user;
@@ -51,11 +47,10 @@ public class UserController {
         ArrayList<UserInterface> users = new ArrayList<>(); // CREATING A NEW ARRAY LIST TO RECEIVE REGISTERED USERS
 
         ImportingUtilities myUt = new ImportingUtilities();//Utilities to validate all the inputs
-        
+
         Solve2Equations sloveTwoEqu = new Solve2Equations();
-        
+
         Solve3Equations sloveThreeEqu = new Solve3Equations();
-        
 
         boolean valid = false;
         String programHault = "";
@@ -87,7 +82,7 @@ public class UserController {
                             user = new User(name, surname, phoneNumber, userPassword, emailAddress);
 
                             users.add(user);
-                                
+
                             user.register(user);//METHOD TO PUSH INFO TO DB
 
                             break;
@@ -112,9 +107,9 @@ public class UserController {
                                         }
                                         System.out.println("");
 
-                                        String dataToBeChanged = myUt.getUserInput("Please type the info you would like to change -- ps. name");
+                                        String user_info_to_be_changed = myUt.getUserInput("Please type the info you would like to change -- ps. name");
 
-                                        String dataToBeChangedLowerCase = dataToBeChanged.toLowerCase().replaceAll("\\s+", ""); //also removes all spaces
+                                        String dataToBeChangedLowerCase = user_info_to_be_changed.toLowerCase().replaceAll("\\s+", ""); //also removes all spaces
 
                                         switch (dataToBeChangedLowerCase) {
                                             case "name":
@@ -160,37 +155,37 @@ public class UserController {
                                                 break;
                                             default:
                                                 System.out.println("The attribute you want to change was not found.");
-                                            }
-                                       
+                                        }
+
                                     case 2: // user want to solve equations with two variable use the equations for CA requirements
-                                        
-                                        System.out.println("Please enter the equations in format: x+y+z+1 = 0");                                                                                                                  
+
+                                        System.out.println("Please enter the equations in format: x+y+z+1 = 0");
                                         String firstEquation = myUt.getUserEquation("Please enter first equation: ");
                                         String secondEquation = myUt.getUserEquation("Please enter second equation: ");
                                         System.out.println("The equations are: " + firstEquation + " and " + secondEquation);
-                                                      
+
                                         System.out.println(sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation)); // print the result 
                                         break;
-                                      // result 1.0   0
-                                      
+                                    // result 1.0   0
+
                                     case 3: // user want to solve equations with three variable
-                                        
-                                        System.out.println("Please enter the equations in format: x+y+z=1");                                                                                                                  
+
+                                        System.out.println("Please enter the equations in format: x+y+z=1");
                                         String firstEquation3 = myUt.getUserEquation("Please enter first equation: ");
                                         String secondEquation3 = myUt.getUserEquation("Please enter second equation: ");
                                         String thirdEquation = myUt.getUserEquation("Please enter third equation: ");
                                         System.out.println("The equations are: " + firstEquation3 + " and " + secondEquation3 + " and " + thirdEquation);
-                                                      
-                                        System.out.println(sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3,thirdEquation)); // print the result 
+
+                                        System.out.println(sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation)); // print the result 
                                         break;
-                                        // result 42.0  182.0   121.0
+                                    // result 42.0  182.0   121.0
                                     }
-                                } else {
+                            } else {
                                 System.out.println("Your details seems to be incorrect, please try again!");
-                                }
-                                break;
-                        }
-                        break;
+                            }
+                            break;
+                    }
+                    break;
 
                 case 2: //CASE USER IS ADMIN
                     String admin_name_login = myUt.getUserInput("Please type your administrator name: ");
@@ -207,7 +202,47 @@ public class UserController {
 
                         switch (adminInput) {
                             case 1:
-                                //CHANGE USERS OR ADMIN PROFILE??
+                                for (AdminInfo info : AdminInfo.values()) {
+                                    System.out.println(info);
+                                }
+                                System.out.println("");
+                                
+                                String admin_info_to_be_changed = myUt.getUserInput("Please type the info you would like to change -- ps. name");
+                                String admin_info_to_be_changed_to_lower_case = admin_info_to_be_changed.toLowerCase().replaceAll("\\s+", "");
+                                switch (admin_info_to_be_changed_to_lower_case) {
+                                    case "name":
+                                        String old_admin_name = myUt.getUserInput("Type your old administrator name: ");
+                                        String new_admin_name = myUt.getUserInput("Type your new administrator name: ");
+                                        System.out.println(admin.update_admin_info("admin_name", old_admin_name, old_admin_name, new_admin_name));
+                                        System.out.println("");
+                                        break;
+                                    case "phonenumber":
+                                        String admin_name_case_phone_number = myUt.getUserInput("Type your administrator name: ");
+                                        int old_admin_phone_number = myUt.GetUserInt("Type your old phone number: ", 0000000, 9999999);
+                                        int new_admin_phone_number = myUt.GetUserInt("Type your new phone number: ", 0000000, 9999999);
+                                        String old_admin_phone_number_string = String.valueOf(old_admin_phone_number);
+                                        String new_admin_phone_number_string = String.valueOf(new_admin_phone_number);
+                                        
+                                        System.out.println(admin.update_admin_info("phone_number", admin_name_case_phone_number, old_admin_phone_number_string, new_admin_phone_number_string));
+                                        System.out.println("");
+                                        break;
+                                    case "password":
+                                        String admin_name_case_password = myUt.getUserInput("Type your administrator name: ");
+                                        String old_admin_password = myUt.getUserInput("Type your old password: ");
+                                        String new_admin_password = myUt.getUserInput("Type your new password: ");
+                                        System.out.println(admin.update_admin_info("admin_password", admin_name_case_password, old_admin_password, new_admin_password));
+                                        System.out.println("");
+                                        break;
+                                    case "emailaddress":
+                                        String admin_name_case_emailaddress = myUt.getUserInput("Type your administrator name: ");
+                                        System.out.println("Type your old email address");
+                                        String old_admin_email_address = mySc.next();
+                                        System.out.println("Type your new email address");
+                                        String new_admin_email_address = mySc.next();
+                                        System.out.println(admin.update_admin_info("email_address", admin_name_case_emailaddress, old_admin_email_address, new_admin_email_address));
+                                        System.out.println("");
+                                        break;
+                                }
                                 break;
                             case 2://ADMIN CHOSE VIEW LIST OF USERS
                                 System.out.println(users = admin.access_list());
