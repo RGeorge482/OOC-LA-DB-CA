@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SloveEquations;
+package SolveEquations;
 
 /**
  *
@@ -17,6 +17,7 @@ public class Solve2Equations {
         // 2x - 3y = 2;
         // 3x + 8y = 3;
 
+        // replacing all the empty spaces from the string
         String equ1 = eq1.replaceAll("\\s", "");
         String equ2 = eq2.replaceAll("\\s", "");
 
@@ -53,9 +54,9 @@ public class Solve2Equations {
 
 
         // equation 2
-        String lastDigitEq2 = equ2.substring(equ2.length()-1); //
+        String lastDigitEq2 = equ2.substring(equ2.length()-1); // get the last digit of equation
         String newEqu2;
-        if(lastDigitEq2.equals("0")) {
+        if(lastDigitEq2.equals("0")) {//if last digit is zero get the constant
             yIndex = equ2.indexOf('y');
             equalIndex = equ2.indexOf('=');
             constValue = equ2.substring(yIndex+2,equalIndex);

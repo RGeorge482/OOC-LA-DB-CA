@@ -9,8 +9,8 @@ import userclasses.DatabaseWriter;
 import userclasses.HeaderClass;
 import userclasses.User;
 import userclasses.UserController;
-import SloveEquations.Solve2Equations;
-import SloveEquations.Solve3Equations;
+import SolveEquations.Solve2Equations;
+import SolveEquations.Solve3Equations;
 
 
 /**
@@ -36,7 +36,7 @@ public class OOCLADBCA {
         
         User myUser = new User(null, null, -1, null, null);
         HeaderClass myHeaders = new HeaderClass();
-        Administrator myAdmin = new Administrator();
+        Administrator myAdmin = new Administrator(null, -1, null, null);
         DatabaseWriter dataOutput = new DatabaseWriter();
         DatabaseReader dataInput = new DatabaseReader();
         

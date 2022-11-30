@@ -10,5 +10,5 @@ package enumspackage;
  * @author welli
  */
 public enum AdminInfo {
-    NAME, PHONE_NUMBER, ADMIN_PASSWORD, EMAIL_ADDRESS;
+    
 }

@@ -55,15 +55,39 @@ public class User implements UserInterface {
         this.user_password = user_password;
         this.email_address = email_address;
     }
+    public boolean create_user_table() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();//THIS IS LOADING THE DRIVER INTO OUR PROGRAM
 
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            Statement stmt = conn.createStatement();
+            //THIS METHOD IS USED TO DO THE QUERYES
+            
+            stmt.execute("USE equationssystem;");
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS user_info ("
+                    + "`id` INT(100) NOT NULL AUTO_INCREMENT,"
+                    + "`name` VARCHAR(25),"
+                    + "`surname` VARCHAR(25),"
+                    + "`phone_number` VARCHAR(10),"
+                    + "`user_password` VARCHAR(20),"
+                    + "`email_address` VARCHAR (50),"
+                    + "PRIMARY KEY(`id`)"
+                    + ")");
+            return true;
+
+        } catch (SQLException e) {
+            return false;
+        }
+    }
     public boolean register(User user) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();//Creating the queries `statements`
-            stmt.execute("USE equationssystem;");
+            stmt.execute("USE user_info;");
             stmt.execute(
-                    String.format("INSERT INTO equationssystem (name, surname, phone_number, user_password, email_address) "
+                    String.format("INSERT INTO user_info (name, surname, phone_number, user_password, email_address) "
                             + "VALUES (\"%s\", \"%s\", \"%d\", \"%s\", \"%s\");",
                             user.name, user.surname, user.phone_number, user.user_password, user.email_address)
             );
@@ -76,10 +100,6 @@ public class User implements UserInterface {
 
     public String getUserPassword() {
         return user_password;
-    }
-
-    public void setUserPassword(String user_password) {
-        this.user_password = user_password;
     }
 
     public String getEmailAddress() {
@@ -96,7 +116,7 @@ public class User implements UserInterface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public boolean change_info(String columnToBeChanged, String user_name, String email_address, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public String change_info(String columnToBeChanged, String user_name, String email_address, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ResultSet rs;
         boolean userExists;
@@ -107,7 +127,7 @@ public class User implements UserInterface {
             //IF USER NAME AND EMAIL ADDRESS MATCHES THAN WE ALLOW CHANGES 
             stmt.execute("USE equationssystem;");
 
-            rs = stmt.executeQuery("SELECT name, email_address FROM equationssystem");
+            rs = stmt.executeQuery("SELECT name, email_address FROM user_info");
 
             rs.next();//code below is for the first line in db
             //user needs to be in the databases matching email address and name so they can make changes
@@ -115,22 +135,22 @@ public class User implements UserInterface {
                 String email = "email_address";
 
                 stmt.execute("USE equationssystem;");
-                stmt.executeUpdate("UPDATE equationssystem SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "' AND " + email + "='" + email_address + "'");
-                return true;
+                stmt.executeUpdate("UPDATE user_info SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "' AND " + email + "='" + email_address + "'");
+                return "Updated successfully";
             }
             while (rs.next()) {//code for the rest of the lines in db
                 if (rs.getString("name").equalsIgnoreCase(user_name) && (rs.getString("email_address").equalsIgnoreCase(email_address))) {
                     String email = "email_address";
 
-                    stmt.execute("USE equationssystem;");
-                    stmt.executeUpdate("UPDATE equationssystem SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "' AND " + email + "='" + email_address + "'");
-                    return true;
+                    stmt.execute("USE user_info;");
+                    stmt.executeUpdate("UPDATE user_info SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "' AND " + email + "='" + email_address + "'");
+                    return "Updated successfully";
                 }
             }
-            return false;
+            return "Try again";
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return "Try again";
         }
     }
 
@@ -147,10 +167,6 @@ public class User implements UserInterface {
     @Override
     public String seeEquations() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setUsers(ArrayList<UserInterface> users) {
-        this.users = users;
     }
 
     public int getId() {
