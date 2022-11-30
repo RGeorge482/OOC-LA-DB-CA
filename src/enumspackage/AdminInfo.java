@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userclasses;
+package enumspackage;
 
 /**
  *
  * @author welli
  */
-public interface AdminInterface {
-    public void reviewOperations();
-    
+public enum AdminInfo {
+    NAME, PHONE_NUMBER, ADMIN_PASSWORD, EMAIL_ADDRESS;
 }

@@ -126,8 +126,7 @@ public class Administrator implements AdminInterface {
         this.email_address = emailAddress;
     }
 
-    @Override
-    public void modify() {
+    public void change_admin_info() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
