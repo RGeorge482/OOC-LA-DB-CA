@@ -80,6 +80,7 @@ public class User implements UserInterface {
             return false;
         }
     }
+    
     public boolean register(User user) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {

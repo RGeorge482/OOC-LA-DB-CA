@@ -27,7 +27,7 @@ public class UserController {
     private DatabaseReader data_input;
     private boolean inDev = true;
     private UserData user_data;
-
+    
     public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter data_output, DatabaseReader data_input, UserData user_data) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         this.headers = headers;
         this.user = user;
@@ -163,8 +163,9 @@ public class UserController {
                                         String firstEquation = myUt.getUserEquation("Please enter first equation: ");
                                         String secondEquation = myUt.getUserEquation("Please enter second equation: ");
                                         System.out.println("The equations are: " + firstEquation + " and " + secondEquation);
-
-                                        System.out.println(sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation)); // print the result 
+                                        String result_two_equation = sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation); // print the result
+                                        data_output.equation_datadb_setup();
+                                        System.out.println(data_output.save_equation(result_two_equation));
                                         break;
                                     // result 1.0   0
 
