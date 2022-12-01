@@ -28,10 +28,7 @@ public class UserController {
     private boolean inDev = true;
     private UserData user_data;
     
-<<<<<<< HEAD
-    
-=======
->>>>>>> f54cfdfe10b23ee78af916ff7c3c0dd15d0f06ec
+
     public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter data_output, DatabaseReader data_input, UserData user_data) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         this.headers = headers;
         this.user = user;
