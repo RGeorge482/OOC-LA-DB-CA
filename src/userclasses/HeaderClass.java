@@ -18,8 +18,6 @@ public class HeaderClass {
         System.out.println("[1] Modify Your Profile");
         System.out.println("[2] Solve Equation of 2 Variables");
         System.out.println("[3] Solve Equation of 3 Variables");
-        System.out.println("[4] Save Equation");
-        System.out.println("[5] See Equation");
         System.out.println("------------------------------------");
         System.out.println("");
     }

@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/ooc/la/db/ca/OOCLADBCA.java</file>
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/SolveEquations/Solve3Equations.java</file>
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/userclasses/DatabaseWriter.java</file>
@@ -15,6 +16,13 @@
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/SolveEquations/Solve2Equations.java</file>
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/userclasses/UserInterface.java</file>
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/userclasses/UserController.java</file>
+=======
+            <file>file:/C:/Users/welli/OneDrive/Documentos/NetBeansProjects/OOC-LA-DB-CA/src/SolveEquations/Solve2Equations.java</file>
+            <file>file:/C:/Users/welli/OneDrive/Documentos/NetBeansProjects/OOC-LA-DB-CA/src/userclasses/User.java</file>
+            <file>file:/C:/Users/welli/OneDrive/Documentos/NetBeansProjects/OOC-LA-DB-CA/src/userclasses/UserController.java</file>
+            <file>file:/C:/Users/welli/OneDrive/Documentos/NetBeansProjects/OOC-LA-DB-CA/src/SolveEquations/Solve3Equations.java</file>
+            <file>file:/C:/Users/welli/OneDrive/Documentos/NetBeansProjects/OOC-LA-DB-CA/src/userclasses/Administrator.java</file>
+>>>>>>> f54cfdfe10b23ee78af916ff7c3c0dd15d0f06ec
         </group>
     </open-files>
 </project-private>
