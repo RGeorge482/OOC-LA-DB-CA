@@ -86,7 +86,7 @@ public class User implements UserInterface {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();//Creating the queries `statements`
-            stmt.execute("USE user_info;");
+            stmt.execute("USE equationssystem;");
             stmt.execute(
                     String.format("INSERT INTO user_info (name, surname, phone_number, user_password, email_address) "
                             + "VALUES (\"%s\", \"%s\", \"%d\", \"%s\", \"%s\");",
@@ -95,6 +95,7 @@ public class User implements UserInterface {
             return true;
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }

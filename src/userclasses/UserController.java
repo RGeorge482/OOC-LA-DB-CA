@@ -83,7 +83,7 @@ public class UserController {
 
                             users.add(user);
 
-                            user.register(user);//METHOD TO PUSH INFO TO DB
+                            System.out.println(user.register(user));//METHOD TO PUSH INFO TO DB
 
                             break;
 
@@ -165,7 +165,7 @@ public class UserController {
                                         System.out.println("The equations are: " + firstEquation + " and " + secondEquation);
                                         String result_two_equation = sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation); // print the result
                                         data_output.equation_datadb_setup();
-                                        System.out.println(data_output.save_equation(result_two_equation));
+                                        data_output.save_equation(result_two_equation);
                                         break;
                                     // result 1.0   0
 
