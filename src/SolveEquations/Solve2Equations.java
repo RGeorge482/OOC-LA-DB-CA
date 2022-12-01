@@ -199,6 +199,8 @@ public class Solve2Equations {
             // multiply the inverse of matrix with our constant matrix
             result[0][0] = inverseMat1[0][0] * mat2[0][0] + inverseMat1[0][1] * mat2[1][0];
             result[1][0] = inverseMat1[1][0] * mat2[0][0] + inverseMat1[1][1] * mat2[1][0];
+            // parse the double as a string and concatenate them
+            
 
             // print the result matrix, the result for our equation
             System.out.println("The solution of the equation in a matrix output is:");

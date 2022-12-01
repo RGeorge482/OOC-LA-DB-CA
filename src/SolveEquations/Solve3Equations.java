@@ -11,7 +11,7 @@ package SolveEquations;
  */
 public class Solve3Equations {
     
-    public double[][]  threeVariableEquation(String eq1, String eq2, String eq3) {
+    public String  threeVariableEquation(String eq1, String eq2, String eq3) {
 
         // x + y + z = 2
         // 2x + 3y + 5z = 11
@@ -228,6 +228,8 @@ public class Solve3Equations {
         mat2[0][0] = Double.parseDouble(lastEq1);
         mat2[1][0] = Double.parseDouble(lastEq2);
         mat2[2][0] = Double.parseDouble(lastEq3);
+        
+        
 
         double result[][] = new double[3][1]; // inverse * mat2
 
@@ -241,14 +243,20 @@ public class Solve3Equations {
                 result[i][j] = sum;
             }
         }
+        
+        String first_result = String.valueOf(result[0][0] + " ");
+        String second_result = String.valueOf(result[1][0] + " ");
+        String third_result = String.valueOf(result[2][0] + " ");
+        String final_result = first_result.concat(second_result);
+        
 
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 1; j++) {
-                 System.out.print(result[i][j] + " ");
-            }
-            System.out.println();
-        }
-        return result;
+//        for(int i = 0; i < 3; i++) {
+//            for(int j = 0; j < 1; j++) {
+//                 System.out.print(result[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
+        return final_result;
 
     }
     
