@@ -49,7 +49,7 @@ public class OOCLADBCA {
 
         //Solve3Equations s2 = new Solve3Equations();
         //s2.threeVariableEquation(" x + y + z = 2", " 2x + 3y + 5z = 11", "x - 5y + 6z = 29");
-
+        
     }
     
 }
