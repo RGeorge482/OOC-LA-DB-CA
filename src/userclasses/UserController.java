@@ -165,6 +165,7 @@ public class UserController {
                                         String secondEquation = myUt.getUserEquation("Please enter second equation: ");
                                         System.out.println("The equations are: " + firstEquation + " and " + secondEquation);
                                         String result_two_equation = sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation); // print the result
+                                        System.out.println(result_two_equation);
                                         data_output.equation_datadb_setup();
                                         data_output.save_equation(result_two_equation);
                                         break;
@@ -179,6 +180,10 @@ public class UserController {
                                         System.out.println("The equations are: " + firstEquation3 + " and " + secondEquation3 + " and " + thirdEquation);
 
                                         System.out.println(sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation)); // print the result 
+                                        String result_three_equation = sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation); // print the result
+                                        data_output.equation_datadb_setup();
+                                        data_output.save_equation(result_three_equation);
+                                        System.out.println("My result is: " + result_three_equation);
                                         break;
                                     // result 42.0  182.0   121.0
                                     }
