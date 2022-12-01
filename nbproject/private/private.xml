@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/ooc/la/db/ca/OOCLADBCA.java</file>
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/SolveEquations/Solve3Equations.java</file>
@@ -14,5 +15,8 @@
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/SolveEquations/Solve2Equations.java</file>
             <file>file:/C:/Users/35386/OneDrive/Desktop/BcCCt/Y2/Sem1/ObjectOrientedConstructs/projects/OOC-LA-DB-CA/src/userclasses/UserController.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> 901c85e4ac975c27a5382d00c56dc001ee51755f
     </open-files>
 </project-private>
