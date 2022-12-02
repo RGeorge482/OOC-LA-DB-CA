@@ -24,25 +24,23 @@ public class UserController {
     private User user;
     private HeaderClass headers;
     private DatabaseWriter data_output;
-    private DatabaseReader data_input;
     private boolean inDev = true;
     private UserData user_data;
-    
-    public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter data_output, DatabaseReader data_input, UserData user_data) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+
+    public UserController(Administrator admin, User user, HeaderClass headers, DatabaseWriter data_output, UserData user_data) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         this.headers = headers;
         this.user = user;
         this.admin = admin;
         this.data_output = data_output;
-        this.data_input = data_input;
         this.user_data = user_data;
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Scanner mySc = new Scanner(System.in);
 
-        System.out.println("");
-
         data_output.databaseSetup();//SET UP SCHEMA
         admin.admin_datadb_setup();//SET UP ADMIN TABLE
         user.create_user_table();//SET UP USER TABLE
+        data_output.three_var_equation_datadb_setup();
+        data_output.two_var_equation_datadb_setup();
 
         ArrayList<UserInterface> users = new ArrayList<>(); // CREATING A NEW ARRAY LIST TO RECEIVE REGISTERED USERS
 
@@ -83,7 +81,7 @@ public class UserController {
 
                             users.add(user);
 
-                            System.out.println(user.register(user));//METHOD TO PUSH INFO TO DB
+                            user.register(user);//user registered
 
                             break;
 
@@ -92,7 +90,7 @@ public class UserController {
                             System.out.print("Please, type your password: ");
                             String user_password_login = mySc.nextLine();
 
-                            boolean userExists = (data_input.user_found(user_name_login, user_password_login)); //method returns true if user exists and pass is correct
+                            boolean userExists = (user.logIn(user_name_login, user_password_login)); //method returns true if user exists and pass is correct
 
                             if (userExists) {
                                 //if user exists maybe is a good idea to return an array list with all the info from this specific user 
@@ -141,9 +139,11 @@ public class UserController {
                                                 String validation_user_name_case_change_password = myUt.getUserInput("Type your name: ");
                                                 System.out.println("Type your email address: ");//both info to check if user exists
                                                 String email_address_validation_case_change_password = mySc.next();
-                                                String old_password = myUt.getUserInput("Type your old password");
-                                                String new_password = myUt.getUserInput("Type your new surname: ");//type old info 
-                                                System.out.println(user.change_info("user_password", validation_user_name_case_change_password, email_address_validation_case_change_password, old_password, new_password));
+                                                System.out.println("Type your old password");
+                                                String old_user_password = mySc.next();
+                                                System.out.println("Type your new password");
+                                                String new_user_password = mySc.next();
+                                                System.out.println(user.change_info("user_password", validation_user_name_case_change_password, email_address_validation_case_change_password, old_user_password, new_user_password));
                                                 break;
                                             case "email":
                                                 String validation_user_name_case_change_email = myUt.getUserInput("Type your name: ");
@@ -155,18 +155,19 @@ public class UserController {
                                                 break;
                                             default:
                                                 System.out.println("The attribute you want to change was not found.");
+                                                break;
                                         }
-
+                                        break;
                                     case 2: // user want to solve equations with two variable use the equations for CA requirements
 
                                         System.out.println("Please enter the equations in format: x+y+z+1 = 0");
                                         String firstEquation = myUt.getUserEquation("Please enter first equation: ");
                                         String secondEquation = myUt.getUserEquation("Please enter second equation: ");
+                                        //if we decide to have the initial equation in the databases we can work with this values above
                                         System.out.println("The equations are: " + firstEquation + " and " + secondEquation);
                                         String result_two_equation = sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation); // print the result
                                         System.out.println(result_two_equation);
-                                        data_output.equation_datadb_setup();
-                                        data_output.save_equation(result_two_equation);
+                                        data_output.save_two_var_equation(firstEquation, secondEquation, result_two_equation);
                                         break;
                                     // result 1.0   0
 
@@ -177,21 +178,26 @@ public class UserController {
                                         String secondEquation3 = myUt.getUserEquation("Please enter second equation: ");
                                         String thirdEquation = myUt.getUserEquation("Please enter third equation: ");
                                         System.out.println("The equations are: " + firstEquation3 + " and " + secondEquation3 + " and " + thirdEquation);
-
                                         System.out.println(sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation)); // print the result 
                                         String result_three_equation = sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation); // print the result
-                                        data_output.equation_datadb_setup();
-                                        data_output.save_equation(result_three_equation);
+                                        data_output.save_thee_var_equation(firstEquation3, secondEquation3, thirdEquation, result_three_equation);
                                         System.out.println("My result is: " + result_three_equation);
                                         break;
                                     // result 42.0  182.0   121.0
-                                    }
+                                    case 4:
+                                        user.review_operations();
+                                        break;
+                                    default:
+                                        System.out.println("Option not available. Try again.");
+                                        break;
+                                }
+                                break;
                             } else {
                                 System.out.println("Your details seems to be incorrect, please try again!");
                             }
                             break;
                     }
-                    break;
+                    break;//user menu choice break
 
                 case 2: //CASE USER IS ADMIN
                     String admin_name_login = myUt.getUserInput("Please type your administrator name: ");
@@ -212,7 +218,7 @@ public class UserController {
                                     System.out.println(info);
                                 }
                                 System.out.println("");
-                                
+
                                 String admin_info_to_be_changed = myUt.getUserInput("Please type the info you would like to change -- ps. name");
                                 String admin_info_to_be_changed_to_lower_case = admin_info_to_be_changed.toLowerCase().replaceAll("\\s+", "");
                                 switch (admin_info_to_be_changed_to_lower_case) {
@@ -228,7 +234,7 @@ public class UserController {
                                         int new_admin_phone_number = myUt.GetUserInt("Type your new phone number: ", 0000000, 9999999);
                                         String old_admin_phone_number_string = String.valueOf(old_admin_phone_number);
                                         String new_admin_phone_number_string = String.valueOf(new_admin_phone_number);
-                                        
+
                                         System.out.println(admin.update_admin_info("phone_number", admin_name_case_phone_number, old_admin_phone_number_string, new_admin_phone_number_string));
                                         System.out.println("");
                                         break;
@@ -257,7 +263,11 @@ public class UserController {
                                 int deleteUserByID = myUt.GetUserInt("Type the ID for the user you wish to exclude: ", 1, 100);
                                 admin.delete(deleteUserByID);
                                 break;
+                            case 4:
+                                admin.review_operations();
+                                break;
                         }
+                        break;
                     } else {
                         System.out.println("Your details are incorrect");
                     }

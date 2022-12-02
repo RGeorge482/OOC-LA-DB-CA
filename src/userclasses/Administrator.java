@@ -1,8 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+INSERT INTO equationssystem.admin_info(id, admin_name, phone_number, admin_password, email_address)
+VALUES('1', 'CCT', '0000000', 'Dublin', 'email_address');
+*/
 package userclasses;
 
 import java.sql.Connection;
@@ -112,11 +111,44 @@ public class Administrator implements AdminInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("Operation executed successfully.");
     }
 
-    @Override
-    public void reviewOperations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        ArrayList<String> two_var_equations = new ArrayList<>();
+        ArrayList<String> three_var_equations = new ArrayList<>();
+        
+        ResultSet rs;//var of type result set as this is the type sql returns
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+                Statement stmt = conn.createStatement();//Creating the queries `statements`
+                ) {
+            stmt.execute("USE equationssystem;");
+
+            rs = stmt.executeQuery("SELECT * from two_var_equations"); //rs receiving value from querie
+
+            while (rs.next()) {//loop to get info from the whole databases
+                two_var_equations.add(rs.getString("equation_final_result"));
+            }
+            System.out.println("Two variable equations:");
+            for(String two_var : two_var_equations){
+                System.out.println(two_var + " ");
+            }
+            
+            rs = stmt.executeQuery("SELECT * from three_var_equations"); //rs receiving value from querie
+            
+            while (rs.next()) {//loop to get info from the whole databases
+                three_var_equations.add(rs.getString("equation_final_result"));
+            }
+            System.out.println("Three variable equations:");
+            for(String three_var : three_var_equations){
+                System.out.println(three_var + " ");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean admin_datadb_setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
