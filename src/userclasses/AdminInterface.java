@@ -10,6 +10,5 @@ package userclasses;
  * @author welli
  */
 public interface AdminInterface {
-    public void reviewOperations();
     
 }

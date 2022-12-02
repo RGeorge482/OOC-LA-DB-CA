@@ -55,14 +55,15 @@ public class User implements UserInterface {
         this.user_password = user_password;
         this.email_address = email_address;
     }
-    public boolean create_user_table() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
+
+    public boolean create_user_table() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();//THIS IS LOADING THE DRIVER INTO OUR PROGRAM
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();
             //THIS METHOD IS USED TO DO THE QUERYES
-            
+
             stmt.execute("USE equationssystem;");
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS user_info ("
@@ -80,7 +81,7 @@ public class User implements UserInterface {
             return false;
         }
     }
-    
+
     public boolean register(User user) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {
@@ -113,9 +114,35 @@ public class User implements UserInterface {
     }
     protected ArrayList<UserInterface> users;
 
-    @Override
-    public boolean logIn() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean logIn(String name, String user_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+
+        ResultSet rs;//var of type result set as this is the type sql returns
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+                Statement stmt = conn.createStatement();//Creating the queries `statements`
+                ) {
+            stmt.execute("USE equationssystem;");
+
+            rs = stmt.executeQuery("SELECT name, user_password from user_info"); //rs receiving value from querie
+
+            rs.next();//code for the first line of db table
+            if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("user_password").equals(user_password))) {
+                return true;
+            }
+
+            while (rs.next()) {    //rest of the lines for the db table
+                if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("user_password").equals(user_password))) {
+                    return true;
+                }
+            }
+
+        } catch (SQLException e) {
+            return false;
+        }
+        System.out.println("");
+        return false;
+
     }
 
     public String change_info(String columnToBeChanged, String user_name, String email_address, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -166,9 +193,43 @@ public class User implements UserInterface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public String seeEquations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        ArrayList<String> two_var_equations = new ArrayList<>();
+        ArrayList<String> three_var_equations = new ArrayList<>();
+        
+        ResultSet rs;//var of type result set as this is the type sql returns
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+                Statement stmt = conn.createStatement();//Creating the queries `statements`
+                ) {
+            stmt.execute("USE equationssystem;");
+
+            rs = stmt.executeQuery("SELECT * from two_var_equations"); //rs receiving value from querie
+
+            while (rs.next()) {//loop to get info from the whole databases
+                two_var_equations.add(rs.getString("equation_final_result"));
+            }
+            System.out.println("Two variable equations:");
+            for(String two_var : two_var_equations){
+                System.out.println(two_var + " ");
+            }
+            
+            rs = stmt.executeQuery("SELECT * from three_var_equations"); //rs receiving value from querie
+            
+            while (rs.next()) {//loop to get info from the whole databases
+                three_var_equations.add(rs.getString("equation_final_result"));
+            }
+            System.out.println("Three variable equations:");
+            for(String three_var : three_var_equations){
+                System.out.println(three_var + " ");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    
     }
 
     public int getId() {

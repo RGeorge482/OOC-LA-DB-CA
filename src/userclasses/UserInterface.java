@@ -5,7 +5,6 @@
  */
 package userclasses;
 
-
 /**
  *
  * @author welli
@@ -17,11 +16,8 @@ public interface UserInterface {
     returns true if password and user name matches
     */
     //public ArrayList<UserInterface> signIn(int id);
-    
-    public boolean logIn();
     public String solveEquationTwoVariables();
     public String solveEquationThreeVariables();
-    public String seeEquations();
     
     
 }

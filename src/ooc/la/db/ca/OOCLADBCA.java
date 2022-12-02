@@ -4,13 +4,10 @@ package ooc.la.db.ca;
 
 import java.sql.SQLException;
 import userclasses.Administrator;
-import userclasses.DatabaseReader;
 import userclasses.DatabaseWriter;
 import userclasses.HeaderClass;
 import userclasses.User;
 import userclasses.UserController;
-import SolveEquations.Solve2Equations;
-import SolveEquations.Solve3Equations;
 
 
 /**
@@ -38,9 +35,8 @@ public class OOCLADBCA {
         HeaderClass myHeaders = new HeaderClass();
         Administrator myAdmin = new Administrator(null, -1, null, null);
         DatabaseWriter dataOutput = new DatabaseWriter();
-        DatabaseReader dataInput = new DatabaseReader();
         
-        UserController myControler = new UserController(myAdmin, myUser, myHeaders, dataOutput, dataInput, null);
+        UserController myControler = new UserController(myAdmin, myUser, myHeaders, dataOutput, null);
         
         
         

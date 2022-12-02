@@ -198,13 +198,6 @@ public class Solve2Equations {
 
             final_result = first_result.concat(second_result);
 
-            // print the result matrix, the result for our equation
-            //for(int i = 0; i < 2; i++) {
-            // for(int j = 0; j < 1; j++) {
-            // System.out.printf("%.2f", result[i][j]);
-            //  }
-            // System.out.println();
-            //}
         }
         return final_result;
     }
