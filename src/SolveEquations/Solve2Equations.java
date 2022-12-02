@@ -193,8 +193,8 @@ public class Solve2Equations {
             // parse the double as a string and concatenate them
             
 
-            String first_result = String.valueOf(result[0][0] + " ");
-            String second_result = String.valueOf(result[1][0]);
+            String first_result = String.valueOf("x = " + result[0][0] + " ");
+            String second_result = String.valueOf("y = " + result[1][0]);
 
             final_result = first_result.concat(second_result);
 

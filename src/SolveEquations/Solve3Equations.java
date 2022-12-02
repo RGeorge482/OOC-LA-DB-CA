@@ -244,9 +244,9 @@ public class Solve3Equations {
             }
         }
         
-        String first_result = String.valueOf(result[0][0] + " ");
-        String second_result = String.valueOf(result[1][0] + " ");
-        String third_result = String.valueOf(result[2][0] + " ");
+        String first_result = String.valueOf("x=" + result[0][0] + " ");
+        String second_result = String.valueOf("y=" + result[1][0] + " ");
+        String third_result = String.valueOf("z=" + result[2][0] + " ");
         String res1 =  first_result.concat(second_result);
         String final_result = res1.concat(third_result);
         

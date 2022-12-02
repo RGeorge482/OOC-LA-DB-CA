@@ -181,8 +181,7 @@ public class UserController {
                                         System.out.println(sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation)); // print the result 
                                         String result_three_equation = sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation); // print the result
                                         data_output.equation_datadb_setup();
-                                        data_output.save_equation(result_three_equation);
-                                        System.out.println("My result is: " + result_three_equation);
+                                        data_output.save_equation(result_three_equation);                                     
                                         break;
                                     // result 42.0  182.0   121.0
                                     }
