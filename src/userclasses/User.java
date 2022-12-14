@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class User implements UserInterface {
 
+    // User atributes
     protected int id;
     protected String name;
     protected String surname;
@@ -47,6 +48,16 @@ public class User implements UserInterface {
         this.email_address = email_address;
     }
 
+    /**
+     * Constructor to import data from db with id
+     *
+     * @param id
+     * @param name
+     * @param surname
+     * @param phone_number
+     * @param user_password
+     * @param email_address
+     */
     public User(int id, String name, String surname, int phone_number, String user_password, String email_address) {//constructor to import data from db with id
         this.id = id;
         this.name = name;
@@ -56,6 +67,7 @@ public class User implements UserInterface {
         this.email_address = email_address;
     }
 
+    // Create database table for user information
     public boolean create_user_table() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();//THIS IS LOADING THE DRIVER INTO OUR PROGRAM
 
@@ -82,6 +94,7 @@ public class User implements UserInterface {
         }
     }
 
+    // Method used for user register
     public boolean register(User user) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {
@@ -101,6 +114,7 @@ public class User implements UserInterface {
         }
     }
 
+    // Setters and Getters
     public String getUserPassword() {
         return user_password;
     }
@@ -114,6 +128,7 @@ public class User implements UserInterface {
     }
     protected ArrayList<UserInterface> users;
 
+    // method used for user log in
     public boolean logIn(String name, String user_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
@@ -145,6 +160,7 @@ public class User implements UserInterface {
 
     }
 
+    // Method used to change user information
     public String change_info(String columnToBeChanged, String user_name, String email_address, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ResultSet rs;
@@ -193,7 +209,8 @@ public class User implements UserInterface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-        public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    // method used to review the equations and final results by the user
+    public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ArrayList<String> two_var_equations = new ArrayList<>();
         ArrayList<String> three_var_equations = new ArrayList<>();
@@ -208,21 +225,26 @@ public class User implements UserInterface {
             rs = stmt.executeQuery("SELECT * from two_var_equations"); //rs receiving value from querie
 
             while (rs.next()) {//loop to get info from the whole databases
-                two_var_equations.add(rs.getString("equation_final_result"));
+                two_var_equations.add(rs.getString("first_equation")); // add to list first equation
+                two_var_equations.add(rs.getString("second_equation")); // add to list second equation
+                two_var_equations.add(rs.getString("equation_final_result")); // add to list final result with x and y values
             }
             System.out.println("Two variable equations:");
             for(String two_var : two_var_equations){
-                System.out.println(two_var + " ");
+                System.out.println(two_var + " "); // print eqautions and result
             }
             
             rs = stmt.executeQuery("SELECT * from three_var_equations"); //rs receiving value from querie
             
             while (rs.next()) {//loop to get info from the whole databases
-                three_var_equations.add(rs.getString("equation_final_result"));
+                three_var_equations.add(rs.getString("first_equation")); // add to list first equation
+                three_var_equations.add(rs.getString("second_equation")); // add to list second equation
+                three_var_equations.add(rs.getString("third_equation"));  // add to list third equation
+                three_var_equations.add(rs.getString("equation_final_result")); // add to list final result with x, y and z values
             }
             System.out.println("Three variable equations:");
             for(String three_var : three_var_equations){
-                System.out.println(three_var + " ");
+                System.out.println(three_var + " "); // print eqautions and result
             }
 
         } catch (SQLException e) {
@@ -232,6 +254,7 @@ public class User implements UserInterface {
     
     }
 
+    // Setters and Getters
     public int getId() {
         return id;
     }
@@ -272,6 +295,7 @@ public class User implements UserInterface {
         this.user_password = user_password;
     }
 
+    // Method to print user attributes
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", phone_number=" + phone_number + ", email_address=" + email_address + " " + '}' + "\n";

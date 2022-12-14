@@ -91,7 +91,7 @@ public class ImportingUtilities {
      * @param prompt message to the user
      * @param minValue Minimum value allowed
      * @param maxValue MAximum value allowed
-     * @return
+     * @return user Integer value
      */
     public int GetUserInt(String prompt, int minValue, int maxValue) {
         Scanner myScanner = new Scanner(System.in);
@@ -175,7 +175,6 @@ public class ImportingUtilities {
     }
 
     public static void main(String[] args) {
-        // TODO code application logic here
         ImportingUtilities myNew = new ImportingUtilities();
         myNew.line(30, "-");
     }
