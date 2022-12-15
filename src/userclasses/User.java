@@ -212,7 +212,7 @@ public class User implements UserInterface {
             }
             System.out.println("Two variable equations:");
             for(String two_var : two_var_equations){
-                System.out.println(two_var + " ");
+                System.out.println(two_var + " ");//printing all results for 2 var equations
             }
             
             rs = stmt.executeQuery("SELECT * from three_var_equations"); //rs receiving value from querie
@@ -221,7 +221,7 @@ public class User implements UserInterface {
                 three_var_equations.add(rs.getString("equation_final_result"));
             }
             System.out.println("Three variable equations:");
-            for(String three_var : three_var_equations){
+            for(String three_var : three_var_equations){ //printing all results for 3 var equations
                 System.out.println(three_var + " ");
             }
 

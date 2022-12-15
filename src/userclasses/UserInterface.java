@@ -10,12 +10,6 @@ package userclasses;
  * @author welli
  */
 public interface UserInterface {
-    
-    /*
-    Method that allow user to log in
-    returns true if password and user name matches
-    */
-    //public ArrayList<UserInterface> signIn(int id);
     public String solveEquationTwoVariables();
     public String solveEquationThreeVariables();
     
