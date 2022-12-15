@@ -47,6 +47,7 @@ public class Administrator implements AdminInterface {
     }
 
     // This method allows administrator to login
+    @Override
     public boolean admin_login(String name, String admin_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
@@ -76,7 +77,7 @@ public class Administrator implements AdminInterface {
         return false;
     }
 
-    // This method is used to retun a list of users
+    @Override
     public ArrayList<UserInterface> access_list() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ArrayList<UserInterface> users = new ArrayList<>();
@@ -107,7 +108,7 @@ public class Administrator implements AdminInterface {
         return users;//RETURNED USERS
     }
 
-    // Method used to delete a user from the database
+    @Override
     public void delete(int id) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         String sql = "DELETE FROM user_info WHERE id = ?";
@@ -123,8 +124,8 @@ public class Administrator implements AdminInterface {
         }
         System.out.println("Operation executed successfully.");
     }
-
-    // Method used to review the equations and final results by the administartor
+    
+    @Override
     public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ArrayList<String> two_var_equations = new ArrayList<>(); // Create an ArrayList for equations with two variables
@@ -166,8 +167,8 @@ public class Administrator implements AdminInterface {
             e.printStackTrace();
         }
     }
-
-    // Method to create the table for administartor
+    
+    @Override
     public boolean admin_datadb_setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         String ADMIN_DB_NAME = "admin_info";//need a constructor and than pass a Admin type as par to insert things into db
 
@@ -221,6 +222,7 @@ public class Administrator implements AdminInterface {
     }
 
     // Method to update administrator information
+    @Override
     public String update_admin_info(String columnToBeChanged, String admin_name, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ResultSet rs;

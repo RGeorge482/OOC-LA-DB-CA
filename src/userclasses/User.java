@@ -82,6 +82,7 @@ public class User implements UserInterface {
         }
     }
 
+    @Override
     public boolean register(User user) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {
@@ -114,6 +115,7 @@ public class User implements UserInterface {
     }
     protected ArrayList<UserInterface> users;
 
+    @Override
     public boolean logIn(String name, String user_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
@@ -145,6 +147,7 @@ public class User implements UserInterface {
 
     }
 
+    @Override
     public String change_info(String columnToBeChanged, String user_name, String email_address, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ResultSet rs;
@@ -171,7 +174,7 @@ public class User implements UserInterface {
                 if (rs.getString("name").equalsIgnoreCase(user_name) && (rs.getString("email_address").equalsIgnoreCase(email_address))) {
                     String email = "email_address";
 
-                    stmt.execute("USE user_info;");
+                    stmt.execute("USE equationssystem;");
                     stmt.executeUpdate("UPDATE user_info SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "' AND " + email + "='" + email_address + "'");
                     return "Updated successfully";
                 }
@@ -184,20 +187,11 @@ public class User implements UserInterface {
     }
 
     @Override
-    public String solveEquationTwoVariables() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String solveEquationThreeVariables() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-        public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ArrayList<String> two_var_equations = new ArrayList<>();
         ArrayList<String> three_var_equations = new ArrayList<>();
-        
+
         ResultSet rs;//var of type result set as this is the type sql returns
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -211,17 +205,17 @@ public class User implements UserInterface {
                 two_var_equations.add(rs.getString("equation_final_result"));
             }
             System.out.println("Two variable equations:");
-            for(String two_var : two_var_equations){
+            for (String two_var : two_var_equations) {
                 System.out.println(two_var + " ");//printing all results for 2 var equations
             }
-            
+
             rs = stmt.executeQuery("SELECT * from three_var_equations"); //rs receiving value from querie
-            
+
             while (rs.next()) {//loop to get info from the whole databases
                 three_var_equations.add(rs.getString("equation_final_result"));
             }
             System.out.println("Three variable equations:");
-            for(String three_var : three_var_equations){ //printing all results for 3 var equations
+            for (String three_var : three_var_equations) { //printing all results for 3 var equations
                 System.out.println(three_var + " ");
             }
 
@@ -229,7 +223,6 @@ public class User implements UserInterface {
             e.printStackTrace();
         }
 
-    
     }
 
     public int getId() {
