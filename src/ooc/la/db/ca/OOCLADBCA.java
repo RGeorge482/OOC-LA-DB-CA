@@ -37,15 +37,7 @@ public class OOCLADBCA {
         DatabaseWriter dataOutput = new DatabaseWriter();
         
         UserController myControler = new UserController(myAdmin, myUser, myHeaders, dataOutput, null);
-        
-        
-        
-        //Solve2Equations s1 = new Solve2Equations();
-        //s1.twoVariableEquation("2x - 3y -2 = 0", "3x + 8y - 3 = 0");
-
-        //Solve3Equations s2 = new Solve3Equations();
-        //s2.threeVariableEquation(" x + y + z = 2", " 2x + 3y + 5z = 11", "x - 5y + 6z = 29");
-        
+                   
     }
     
 }

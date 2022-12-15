@@ -55,6 +55,7 @@ public class DatabaseWriter {
             stmt.execute(//if admin table does not exists create it
                     "CREATE TABLE IF NOT EXISTS " + ADMIN_DB_NAME + "("
                     + "`id` INT(100) NOT NULL AUTO_INCREMENT,"
+                   // + "`equation_final_result` TEXT(100)," 
                     + "`first_equation` TEXT(100),"
                     + "`second_equation` TEXT(100),"
                     + "`equation_final_result` TEXT(100),"

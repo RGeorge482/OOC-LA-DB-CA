@@ -158,9 +158,8 @@ public class UserController {
                                                 break;
                                         }
                                         break;
-                                    case 2: // user want to solve equations with two variable use the equations for CA requirements
-
-                                        System.out.println("Please enter the equations in format: x+y+z+1 = 0");
+                                    case 2: // user want to solve equations with two variables
+                                        System.out.println("Please enter the equations in format: x+y=2");
                                         String firstEquation = myUt.getUserEquation("Please enter first equation: ");
                                         String secondEquation = myUt.getUserEquation("Please enter second equation: ");
                                         //if we decide to have the initial equation in the databases we can work with this values above
@@ -168,22 +167,19 @@ public class UserController {
                                         String result_two_equation = sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation); // print the result
                                         System.out.println(result_two_equation);
                                         data_output.save_two_var_equation(firstEquation, secondEquation, result_two_equation);
-                                        break;
-                                    // result 1.0   0
+                                        break;                                 
 
-                                    case 3: // user want to solve equations with three variable
-
+                                    case 3: // user want to solve equations with three variables
                                         System.out.println("Please enter the equations in format: x+y+z=1");
                                         String firstEquation3 = myUt.getUserEquation("Please enter first equation: ");
                                         String secondEquation3 = myUt.getUserEquation("Please enter second equation: ");
                                         String thirdEquation = myUt.getUserEquation("Please enter third equation: ");
                                         System.out.println("The equations are: " + firstEquation3 + " and " + secondEquation3 + " and " + thirdEquation);
                                         System.out.println(sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation)); // print the result 
-                                        String result_three_equation = sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation); // print the result
+                                        String result_three_equation = sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation); // print the result                                                                        
                                         data_output.save_thee_var_equation(firstEquation3, secondEquation3, thirdEquation, result_three_equation);
-                                        System.out.println("My result is: " + result_three_equation);
-                                        break;
-                                    // result 42.0  182.0   121.0
+                                        //System.out.println("My result is: " + result_three_equation);
+                                        break;                                   
                                     case 4:
                                         user.review_operations();
                                         break;

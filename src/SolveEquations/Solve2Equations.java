@@ -12,70 +12,13 @@ package SolveEquations;
 public class Solve2Equations {
 
     public String twoVariableEquation(String eq1, String eq2) {
-        // 2x - 3y - 2 = 0;  use this input type for the moment
-        // 3x + 8y - 3 = 0;
-
-        // 2x - 3y = 2;
-        // 3x + 8y = 3;
+        
         // replacing all the empty spaces from the string
-        String equ1 = eq1.replaceAll("\\s", "");
-        String equ2 = eq2.replaceAll("\\s", "");
+        String equation1 = eq1.replaceAll("\\s", "");
+        String equation2 = eq2.replaceAll("\\s", "");
+        
         String final_result = "";
         double eq1Const1 = 0, eq2Const1 = 0;
-
-        // Equation 1
-        // Check if equations are equal zero, case when constant is before equal sign
-        String lastDigitEq1 = equ1.substring(equ1.length() - 1); // get the last digit of equation
-        int yIndex, equalIndex;
-        String constValue, signConst, equation1 = "", equation2 = "", newEqu1;;
-
-        if (lastDigitEq1.equals("0")) { // if last digit is zero get the constant
-            yIndex = equ1.indexOf('y');
-            equalIndex = equ1.indexOf('=');
-            constValue = equ1.substring(yIndex + 2, equalIndex);
-            signConst = equ1.substring(yIndex + 1, equalIndex);
-
-            if (signConst.charAt(0) == 43) { // if is a positive number, after equal sign it will be negative
-                newEqu1 = equ1.replace(signConst, "").replaceAll(lastDigitEq1, constValue); // replace the constant
-                equalIndex = newEqu1.indexOf('='); // get the new equal index value
-                equation1 = newEqu1.substring(0, equalIndex + 1) + "-" + newEqu1.substring(equalIndex + 1); // get the new string with the constant after the equal sign when negative
-                String eq1ConstValue = equation1.substring(equalIndex + 1); // value of the constant
-                eq1Const1 = Double.parseDouble(eq1ConstValue);
-            } else { // this is the case when the constant is before equal and is negative
-                newEqu1 = equ1.replace(signConst, "").replaceAll(lastDigitEq1, constValue);  // replace the constant
-                equalIndex = newEqu1.indexOf('='); // get the new equal index value
-
-                equation1 = equ1.replaceAll(signConst, "").replaceAll(lastDigitEq1, constValue);
-                String eq1ConstValue = equation1.substring(equalIndex + 1); // // get the new string with the constant after the equal sign when positive
-                eq1Const1 = Double.parseDouble(eq1ConstValue);
-            }
-        }
-
-        // equation 2
-        String lastDigitEq2 = equ2.substring(equ2.length() - 1); // get the last digit of equation
-        String newEqu2;
-        if (lastDigitEq2.equals("0")) {//if last digit is zero get the constant
-            yIndex = equ2.indexOf('y');
-            equalIndex = equ2.indexOf('=');
-            constValue = equ2.substring(yIndex + 2, equalIndex);
-            signConst = equ2.substring(yIndex + 1, equalIndex);
-            if (signConst.charAt(0) == 43) { // if is a positive number, after equal sign it will be negative
-                newEqu2 = equ2.replace(signConst, "").replaceAll(lastDigitEq2, constValue); // replace the constant
-                equalIndex = newEqu2.indexOf('='); // get the new equal index value
-                equation2 = newEqu2.substring(0, equalIndex + 1) + "-" + newEqu2.substring(equalIndex + 1); // get the new string with the constant after the equal sign when negative;
-
-                String eq2ConstValue = equation2.substring(equalIndex + 1); // value of the constant
-                eq2Const1 = Double.parseDouble(eq2ConstValue);
-            } else { // this is the case when the constant is before equal and is negative
-                newEqu2 = equ2.replace(signConst, "").replaceAll(lastDigitEq1, constValue);  // replace the constant
-                equalIndex = newEqu2.indexOf('='); // get the new equal index value
-
-                equation2 = equ2.replaceAll(signConst, "").replaceAll(lastDigitEq2, constValue);
-
-                String eq2ConstValue = equation2.substring(equalIndex + 1); // // get the new string with the constant after the equal sign when positive
-                eq2Const1 = Double.parseDouble(eq2ConstValue);
-            }
-        }
 
         double eq1Coefficent1 = 0, eq1Coefficent2 = 0, eq2Coefficent1 = 0, eq2Coefficent2 = 0;
 
@@ -159,7 +102,7 @@ public class Solve2Equations {
         double determinat = eq1Coefficent1 * eq2Coefficent2 - eq1Coefficent2 * eq2Coefficent1;
 
         if (determinat == 0) {
-            System.out.println("A singular matrix, don't have an inverse");
+            System.out.println("A singular matrix, don't have an inverse, this system of equations has no solution.");
         } else {
             // detA is the value which we multiply with our matrix to find the inverse
             double detA = 1 / determinat;
@@ -181,6 +124,7 @@ public class Solve2Equations {
             reverseMat1[0][1] = -eq1Coefficent2;
             reverseMat1[1][0] = -eq2Coefficent1;
             reverseMat1[1][1] = eq1Coefficent1;
+            
             for (int i = 0; i < 2; i++) {
                 for (int j = 0; j < 2; j++) {
                     inverseMat1[i][j] = reverseMat1[i][j] * detA; // multiply each element of our reverse matrix with detA and save the new value in the inverse matrix
@@ -190,11 +134,10 @@ public class Solve2Equations {
             // multiply the inverse of matrix with our constant matrix
             result[0][0] = inverseMat1[0][0] * mat2[0][0] + inverseMat1[0][1] * mat2[1][0];
             result[1][0] = inverseMat1[1][0] * mat2[0][0] + inverseMat1[1][1] * mat2[1][0];
-            // parse the double as a string and concatenate them
             
-
-            String first_result = String.valueOf(result[0][0] + " ");
-            String second_result = String.valueOf(result[1][0]);
+            // parse the double as a string concatenate strings and print with two decimal points
+           String first_result = String.valueOf("x = " + String.format("%.2f", result[0][0]) + " ");
+           String second_result = String.valueOf("y = " + String.format("%.2f", result[1][0]));
 
             final_result = first_result.concat(second_result);
 

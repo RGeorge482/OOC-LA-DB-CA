@@ -13,18 +13,14 @@ public class Solve3Equations {
     
     public String  threeVariableEquation(String eq1, String eq2, String eq3) {
 
-        // x + y + z = 2
-        // 2x + 3y + 5z = 11
-        // x - 5y + 6z = 29
-
         // replacing all the empty spaces from the string
         String equation1 = eq1.replaceAll("\\s", "");
         String equation2 = eq2.replaceAll("\\s", "");
         String equation3 = eq3.replaceAll("\\s", "");
 
 
-        double eq1Coefficent1 = 0,eq1Coefficent2 = 0, eq1Coefficent3 = 0, eq1Const1, eq2Coefficent1 = 0, eq2Coefficent2 = 0, eq2Coefficent3 = 0, eq2Const1;
-        double eq3Coefficent1 = 0, eq3Coefficent2 = 0, eq3Coefficent3 = 0, eq3Const1;
+        double eq1Coefficent1 = 0,eq1Coefficent2 = 0, eq1Coefficent3 = 0, eq2Coefficent1 = 0, eq2Coefficent2 = 0, eq2Coefficent3 = 0;
+        double eq3Coefficent1 = 0, eq3Coefficent2 = 0, eq3Coefficent3 = 0;
 
         // FIRST EQUATION
 
@@ -193,7 +189,13 @@ public class Solve3Equations {
         coFactors[1][2] *= -1;
         coFactors[2][1] *= -1;
 
+        // Calculate determinant
         double determinant = mat1[0][0] * coFactors[0][0] + mat1[0][1] * coFactors[0][1] + mat1[0][2] * coFactors[0][2];
+        String final_result = "";
+        
+        if (determinant == 0) {
+            System.out.println("This system of equations has no solution.");
+        } else {
 
         // Adjoint of the matrix, the transpose of cofactors
         double adjoint[][] = new double[3][3]; // is coFactor transpose
@@ -229,36 +231,27 @@ public class Solve3Equations {
         mat2[1][0] = Double.parseDouble(lastEq2);
         mat2[2][0] = Double.parseDouble(lastEq3);
         
-        
-
         double result[][] = new double[3][1]; // inverse * mat2
 
-        // multiply matrix
+        // multiply inverese of first matrix with second matrix
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 1; j++) {
-                int sum = 0;
+                result[i][j] = 0;
                 for(int k = 0; k < 3; k++) {
-                    sum += mat1[i][k] * mat2[k][j];
-                }
-                result[i][j] = sum;
+                    result[i][j] += inverse[i][k] * mat2[k][j];
+                }             
             }
         }
         
-        String first_result = String.valueOf(result[0][0] + " ");
-        String second_result = String.valueOf(result[1][0] + " ");
-        String third_result = String.valueOf(result[2][0] + " ");
+        // parse double as a string, concatenate them, print with two decimal points
+        String first_result = String.valueOf("x = " + String.format("%.2f", result[0][0]) + " ");
+        String second_result = String.valueOf("y = " + String.format("%.2f", result[1][0]) + " ");
+        String third_result = String.valueOf("z = " + String.format("%.2f", result[2][0]) + " ");
         String res1 =  first_result.concat(second_result);
-        String final_result = res1.concat(third_result);
+        final_result = res1.concat(third_result);
+        }
         
-
-//        for(int i = 0; i < 3; i++) {
-//            for(int j = 0; j < 1; j++) {
-//                 System.out.print(result[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
         return final_result;
-
     }
     
 }
