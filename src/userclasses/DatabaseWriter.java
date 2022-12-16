@@ -16,22 +16,27 @@ import java.sql.Statement;
  */
 public class DatabaseWriter {
 
-    //MAKING A CONNECTION WITH THE DATABASE
     String dbName = "equationssystem";
     String DB_URL = "jdbc:mysql://localhost/";
     String USER = "CCT";
     String PASSWORD = "Dublin";
 
-    public boolean databaseSetup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();//THIS IS LOADING THE DRIVER INTO OUR PROGRAM
-        //MAKING A CLASS FROM FILE AND MAKING A NEW INSTANCE FROM THIS CLASS
+    /**
+     * This method is here to guarantee the schema is always created
+     *
+     * @return
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws SQLException
+     */
+    public boolean database_setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            //this part of the code is creating a connection between the db and this user and password
             Statement stmt = conn.createStatement();
-            //THIS METHOD IS USED TO DO THE QUERYES
-            stmt.execute("CREATE SCHEMA IF NOT EXISTS equationssystem");//USING METHOD ABOVE TO EXECUTE THE QUERIE ONE BY ONE
+            stmt.execute("CREATE SCHEMA IF NOT EXISTS equationssystem");
 
             return true;
 
@@ -42,6 +47,9 @@ public class DatabaseWriter {
 
     }
 
+    /*
+    Method is here to guarantee teo var table is always in the db
+     */
     public boolean two_var_equation_datadb_setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         String ADMIN_DB_NAME = "two_var_equations";//need a constructor and than pass a Admin type as par to insert things into db
 
@@ -55,7 +63,7 @@ public class DatabaseWriter {
             stmt.execute(//if admin table does not exists create it
                     "CREATE TABLE IF NOT EXISTS " + ADMIN_DB_NAME + "("
                     + "`id` INT(100) NOT NULL AUTO_INCREMENT,"
-                   // + "`equation_final_result` TEXT(100)," 
+                    // + "`equation_final_result` TEXT(100)," 
                     + "`first_equation` TEXT(100),"
                     + "`second_equation` TEXT(100),"
                     + "`equation_final_result` TEXT(100),"
@@ -68,8 +76,11 @@ public class DatabaseWriter {
             return false;
         }
     }
-    
-        public boolean three_var_equation_datadb_setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+
+    /*
+    Method is here to guarantee three var table is always in the db
+     */
+    public boolean three_var_equation_datadb_setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         String ADMIN_DB_NAME = "three_var_equations";//need a constructor and than pass a Admin type as par to insert things into db
 
         try {
@@ -95,7 +106,11 @@ public class DatabaseWriter {
             return false;
         }
     }
-       public boolean save_two_var_equation(String first_equation, String second_equation, String equation_result) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+
+    /*
+    Method to store the two var equation into the db
+     */
+    public boolean save_two_var_equation(String first_equation, String second_equation, String equation_result) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -113,7 +128,10 @@ public class DatabaseWriter {
             return false;
         }
     }
-       
+
+     /*
+    Method to store the three var equation into the db
+    */
     public boolean save_thee_var_equation(String first_equation, String second_equation, String third_equation, String equation_result) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {

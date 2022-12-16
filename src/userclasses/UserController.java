@@ -36,7 +36,7 @@ public class UserController {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Scanner mySc = new Scanner(System.in);
 
-        data_output.databaseSetup();//SET UP SCHEMA
+        data_output.database_setup();//SET UP SCHEMA
         admin.admin_datadb_setup();//SET UP ADMIN TABLE
         user.create_user_table();//SET UP USER TABLE
         data_output.three_var_equation_datadb_setup();
@@ -55,24 +55,31 @@ public class UserController {
         int accessMenuUserChoice, userMenuChoice = -1, adminMenuChoice = -1, userSignLogin, adminInput;
 
         do {
-            headers.accessMenu();//USER OR ADMIN
-            accessMenuUserChoice = myUt.GetUserInt("Type one of the options above: ", 1, 2);//GIVE THE USER ADMIN OR USER OPTIONS
+            headers.access_menu();//USER OR ADMIN
+            accessMenuUserChoice = myUt.Get_user_int("Type one of the options above: ", 1, 2);//GIVE THE USER ADMIN OR USER OPTIONS
             System.out.println("");
             switch (accessMenuUserChoice) {
                 case 1://CASE USER SELECTS USER OPTION
-                    headers.userLogin();
-                    userSignLogin = myUt.GetUserInt("Please type one of the options above: ", 1, 2);
+                    headers.user_login();
+                    userSignLogin = myUt.Get_user_int("Please type one of the options above: ", 1, 2);
                     System.out.println("");
                     switch (userSignLogin) {
                         case 1://USER SELECTS REGISTER 
+                            String emailAddress="";
+                            valid = false;
+                            do{
                             System.out.println("Please, type your email address");
-                            String emailAddress = mySc.next();
+                            emailAddress = mySc.next();
+                            if(myUt.email_validator(emailAddress)) valid = true;
+                            else System.out.println("Try an email containing '@' and a domain such as 'gmail.com'");
                             System.out.println("");
-                            String name = myUt.getUserInput("Please, type your first name: ");
+                            }while(!valid);//loop breaks if user email address is valid
                             System.out.println("");
-                            String surname = myUt.getUserInput("Please, type your surname: ");
+                            String name = myUt.get_user_input("Please, type your first name: ");
                             System.out.println("");
-                            int phoneNumber = myUt.GetUserInt("Please, type your phone number: ", 00000000, 99999999);
+                            String surname = myUt.get_user_input("Please, type your surname: ");
+                            System.out.println("");
+                            int phoneNumber = myUt.Get_user_int("Please, type your phone number. Ex: 1234567 ", 00000000, 99999999);
                             System.out.println("");
                             System.out.print("Please type a password: ");
                             String userPassword = mySc.next();
@@ -82,20 +89,21 @@ public class UserController {
                             users.add(user);
 
                             user.register(user);//user registered
-
+                            
+                            System.out.println("User registered successfully!");
                             break;
 
                         case 2://USER SELECTS LOGIN 
-                            String user_name_login = myUt.getUserInput("Please type your first name: ");
+                            String user_name_login = myUt.get_user_input("Please type your first name: ");
                             System.out.print("Please, type your password: ");
                             String user_password_login = mySc.nextLine();
 
-                            boolean userExists = (user.logIn(user_name_login, user_password_login)); //method returns true if user exists and pass is correct
+                            boolean userExists = (user.user_login(user_name_login, user_password_login)); //method returns true if user exists and pass is correct
 
                             if (userExists) {
                                 //if user exists maybe is a good idea to return an array list with all the info from this specific user 
-                                headers.userMenuOptions();
-                                int loggedUserChoice = myUt.GetUserInt("Please type one of the options above: ", 1, 4);
+                                headers.user_menu_options();
+                                int loggedUserChoice = myUt.Get_user_int("Please type one of the options above: ", 1, 4);
                                 System.out.println("");
 
                                 switch (loggedUserChoice) {
@@ -105,53 +113,55 @@ public class UserController {
                                         }
                                         System.out.println("");
 
-                                        String user_info_to_be_changed = myUt.getUserInput("Please type the info you would like to change -- ps. name");
+                                        String user_info_to_be_changed = myUt.get_user_input("Please type the info you would like to change -- ps. name");
 
                                         String dataToBeChangedLowerCase = user_info_to_be_changed.toLowerCase().replaceAll("\\s+", ""); //also removes all spaces
 
                                         switch (dataToBeChangedLowerCase) {
                                             case "name":
-                                                String validation_user_name_case_change_name = myUt.getUserInput("Type your name: ");
+                                                String validation_user_name_case_change_name = myUt.get_user_input("Type your name: ");
                                                 System.out.println("Type your email address: ");//both info to check if user exists
                                                 String email_address_validation_case_change_name = mySc.next();
-                                                String new_name = myUt.getUserInput("Type your new name: ");//type old info 
-                                                System.out.println(user.change_info("name", validation_user_name_case_change_name, email_address_validation_case_change_name, validation_user_name_case_change_name, new_name));
+                                                String new_name = myUt.get_user_input("Type your new name: ");//type old info 
+                                                System.out.println(user.update_userinfo("name", validation_user_name_case_change_name, email_address_validation_case_change_name, validation_user_name_case_change_name, new_name));
                                                 break;
                                             case "surname":
-                                                String validation_user_name_case_change_surname = myUt.getUserInput("Type your name: ");
+                                                String validation_user_name_case_change_surname = myUt.get_user_input("Type your name: ");
                                                 System.out.println("Type your email address: ");//both info to check if user exists
                                                 String email_address_validation_case_change_surname = mySc.next();
-                                                String old_surname = myUt.getUserInput("Type your old surname");
-                                                String new_surname = myUt.getUserInput("Type your new surname: ");//type old info 
-                                                System.out.println(user.change_info("surname", validation_user_name_case_change_surname, email_address_validation_case_change_surname, old_surname, new_surname));
+                                                String old_surname = myUt.get_user_input("Type your old surname");
+                                                String new_surname = myUt.get_user_input("Type your new surname: ");//type old info 
+                                                System.out.println(user.update_userinfo("surname", validation_user_name_case_change_surname, email_address_validation_case_change_surname, old_surname, new_surname));
                                                 break;
                                             case "phonenumber":
-                                                String validation_user_name_case_change_phonenum = myUt.getUserInput("Type your name: ");
+                                                String validation_user_name_case_change_phonenum = myUt.get_user_input("Type your name: ");
                                                 System.out.println("Type your email address: ");//both info to check if user exists
                                                 String email_address_validation_case_change_phonenum = mySc.next();
-                                                int oldPhoneNumInt = myUt.GetUserInt("Type your old phone number: ", 0000000, 9999999);
+                                                int oldPhoneNumInt = myUt.Get_user_int("Type your old phone number: ", 0000000, 9999999);
                                                 String oldPhoneNumString = String.valueOf(oldPhoneNumInt);
-                                                int newPhoneNumInt = myUt.GetUserInt("Type your new phone number: ", 0000000, 9999999);
+                                                int newPhoneNumInt = myUt.Get_user_int("Type your new phone number: ", 0000000, 9999999);
                                                 String newPhoneNumString = String.valueOf(newPhoneNumInt);
-                                                System.out.println(user.change_info("phone_number", validation_user_name_case_change_phonenum, email_address_validation_case_change_phonenum, oldPhoneNumString, newPhoneNumString));
+                                                System.out.println(user.update_userinfo("phone_number", validation_user_name_case_change_phonenum, email_address_validation_case_change_phonenum, oldPhoneNumString, newPhoneNumString));
                                                 break;
                                             case "password":
-                                                String validation_user_name_case_change_password = myUt.getUserInput("Type your name: ");
+                                                String validation_user_name_case_change_password = myUt.get_user_input("Type your name: ");
                                                 System.out.println("Type your email address: ");//both info to check if user exists
                                                 String email_address_validation_case_change_password = mySc.next();
+                                                System.out.println("");
                                                 System.out.println("Type your old password");
                                                 String old_user_password = mySc.next();
                                                 System.out.println("Type your new password");
                                                 String new_user_password = mySc.next();
-                                                System.out.println(user.change_info("user_password", validation_user_name_case_change_password, email_address_validation_case_change_password, old_user_password, new_user_password));
+                                                System.out.println(user.update_userinfo("user_password", validation_user_name_case_change_password, email_address_validation_case_change_password, old_user_password, new_user_password));
                                                 break;
                                             case "email":
-                                                String validation_user_name_case_change_email = myUt.getUserInput("Type your name: ");
+                                                String validation_user_name_case_change_email = myUt.get_user_input("Type your name: ");
                                                 System.out.println("Type your email address: ");
                                                 String email_address_validation_case_change_email = mySc.next();
+                                                System.out.println("");
                                                 System.out.println("Type your new email address: ");
                                                 String new_email_address = mySc.next();
-                                                System.out.println(user.change_info("email_address", validation_user_name_case_change_email, email_address_validation_case_change_email, email_address_validation_case_change_email, new_email_address));
+                                                System.out.println(user.update_userinfo("email_address", validation_user_name_case_change_email, email_address_validation_case_change_email, email_address_validation_case_change_email, new_email_address));
                                                 break;
                                             default:
                                                 System.out.println("The attribute you want to change was not found.");
@@ -160,8 +170,8 @@ public class UserController {
                                         break;
                                     case 2: // user want to solve equations with two variables
                                         System.out.println("Please enter the equations in format: x+y=2");
-                                        String firstEquation = myUt.getUserEquation("Please enter first equation: ");
-                                        String secondEquation = myUt.getUserEquation("Please enter second equation: ");
+                                        String firstEquation = myUt.get_user_equation("Please enter first equation: ");
+                                        String secondEquation = myUt.get_user_equation("Please enter second equation: ");
                                         //if we decide to have the initial equation in the databases we can work with this values above
                                         System.out.println("The equations are: " + firstEquation + " and " + secondEquation);
                                         String result_two_equation = sloveTwoEqu.twoVariableEquation(firstEquation, secondEquation); // print the result
@@ -171,9 +181,9 @@ public class UserController {
 
                                     case 3: // user want to solve equations with three variables
                                         System.out.println("Please enter the equations in format: x+y+z=1");
-                                        String firstEquation3 = myUt.getUserEquation("Please enter first equation: ");
-                                        String secondEquation3 = myUt.getUserEquation("Please enter second equation: ");
-                                        String thirdEquation = myUt.getUserEquation("Please enter third equation: ");
+                                        String firstEquation3 = myUt.get_user_equation("Please enter first equation: ");
+                                        String secondEquation3 = myUt.get_user_equation("Please enter second equation: ");
+                                        String thirdEquation = myUt.get_user_equation("Please enter third equation: ");
                                         System.out.println("The equations are: " + firstEquation3 + " and " + secondEquation3 + " and " + thirdEquation);
                                         System.out.println(sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation)); // print the result 
                                         String result_three_equation = sloveThreeEqu.threeVariableEquation(firstEquation3, secondEquation3, thirdEquation); // print the result                                                                        
@@ -196,7 +206,7 @@ public class UserController {
                     break;//user menu choice break
 
                 case 2: //CASE USER IS ADMIN
-                    String admin_name_login = myUt.getUserInput("Please type your administrator name: ");
+                    String admin_name_login = myUt.get_user_input("Please type your administrator name: ");
                     System.out.print("Please, type your password: ");
                     String admin_password_login = mySc.nextLine();
 
@@ -204,9 +214,9 @@ public class UserController {
 
                     if (admin_exists) {
                         System.out.println("");
-                        headers.adminMenuOptions();
+                        headers.admin_menu_options();
                         System.out.println("");
-                        adminInput = myUt.GetUserInt("Please type one of the options above: ", 1, 4);
+                        adminInput = myUt.Get_user_int("Please type one of the options above: ", 1, 4);
 
                         switch (adminInput) {
                             case 1:
@@ -215,34 +225,24 @@ public class UserController {
                                 }
                                 System.out.println("");
 
-                                String admin_info_to_be_changed = myUt.getUserInput("Please type the info you would like to change -- ps. name");
+                                String admin_info_to_be_changed = myUt.get_user_input("Please type the info you would like to change -- ps. name");
                                 String admin_info_to_be_changed_to_lower_case = admin_info_to_be_changed.toLowerCase().replaceAll("\\s+", "");
                                 switch (admin_info_to_be_changed_to_lower_case) {
                                     case "name":
-                                        String old_admin_name = myUt.getUserInput("Type your old administrator name: ");
-                                        String new_admin_name = myUt.getUserInput("Type your new administrator name: ");
+                                        String old_admin_name = myUt.get_user_input("Type your old administrator name: ");
+                                        String new_admin_name = myUt.get_user_input("Type your new administrator name: ");
                                         System.out.println(admin.update_admin_info("admin_name", old_admin_name, old_admin_name, new_admin_name));
                                         System.out.println("");
                                         break;
-                                    case "phonenumber":
-                                        String admin_name_case_phone_number = myUt.getUserInput("Type your administrator name: ");
-                                        int old_admin_phone_number = myUt.GetUserInt("Type your old phone number: ", 0000000, 9999999);
-                                        int new_admin_phone_number = myUt.GetUserInt("Type your new phone number: ", 0000000, 9999999);
-                                        String old_admin_phone_number_string = String.valueOf(old_admin_phone_number);
-                                        String new_admin_phone_number_string = String.valueOf(new_admin_phone_number);
-
-                                        System.out.println(admin.update_admin_info("phone_number", admin_name_case_phone_number, old_admin_phone_number_string, new_admin_phone_number_string));
-                                        System.out.println("");
-                                        break;
                                     case "password":
-                                        String admin_name_case_password = myUt.getUserInput("Type your administrator name: ");
-                                        String old_admin_password = myUt.getUserInput("Type your old password: ");
-                                        String new_admin_password = myUt.getUserInput("Type your new password: ");
+                                        String admin_name_case_password = myUt.get_user_input("Type your administrator name: ");
+                                        String old_admin_password = myUt.get_user_input("Type your old password: ");
+                                        String new_admin_password = myUt.get_user_input("Type your new password: ");
                                         System.out.println(admin.update_admin_info("admin_password", admin_name_case_password, old_admin_password, new_admin_password));
                                         System.out.println("");
                                         break;
                                     case "emailaddress":
-                                        String admin_name_case_emailaddress = myUt.getUserInput("Type your administrator name: ");
+                                        String admin_name_case_emailaddress = myUt.get_user_input("Type your administrator name: ");
                                         System.out.println("Type your old email address");
                                         String old_admin_email_address = mySc.next();
                                         System.out.println("Type your new email address");
@@ -256,7 +256,7 @@ public class UserController {
                                 System.out.println(users = admin.access_list());
                                 break;
                             case 3:
-                                int deleteUserByID = myUt.GetUserInt("Type the ID for the user you wish to exclude: ", 1, 100);
+                                int deleteUserByID = myUt.Get_user_int("Type the ID for the user you wish to exclude: ", 1, 100);
                                 admin.delete(deleteUserByID);
                                 break;
                             case 4:
@@ -270,7 +270,7 @@ public class UserController {
 
             }
             System.out.println("");
-            programHault = myUt.getUserValidInput("Would you like to return to the main menu? [y] or [n]");
+            programHault = myUt.get_user_valid_input("Would you like to return to the main menu? [y] or [n]");
         } while (programHault.equals("y"));//LOOP FOR THE USER TO RETURN TO MAIN HEADER
     }
 }
