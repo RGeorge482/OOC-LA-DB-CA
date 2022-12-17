@@ -187,7 +187,7 @@ public class User implements UserInterface {
                 if (rs.getString("name").equalsIgnoreCase(user_name) && (rs.getString("email_address").equalsIgnoreCase(email_address))) {
                     String email = "email_address";
 
-                    stmt.execute("USE user_info;");
+                    stmt.execute("USE equationssystem;");
                     stmt.executeUpdate("UPDATE user_info SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "' AND " + email + "='" + email_address + "'");
                     return "Updated successfully";
                 }
@@ -232,6 +232,7 @@ public class User implements UserInterface {
             System.out.println("Two variable equations:");
             for(String two_var : two_var_equations){
                 System.out.println(two_var + " "); // print eqautions and result
+                System.out.println(" "); 
             }
             
             rs = stmt.executeQuery("SELECT * from three_var_equations"); //rs receiving value from querie
