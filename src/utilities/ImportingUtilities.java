@@ -14,49 +14,21 @@ import java.util.regex.Pattern;
  */
 public class ImportingUtilities {
 
-    private static final String PASSWORD_PATTERN
-            = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+    private static final String EMAIL_REGEX = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
 
-    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-
-    /**
-     * Receive user information in String format
-     *
-     * @param answer
-     * @param prompt message to the user
-     * @return user input with extra if user does not input anything answer to
-     * instruct him
-     */
-    public String emailValidator(String prompt) {
-
-        Scanner mySc = new Scanner(System.in);
-
-        String email = " ";
-        boolean validated = false;
-        do {
-            System.out.println(prompt);
-
-            email = mySc.next();
-
-            String regex = "^[A-Z0-0._%+-]+@[A-Z0-9.-]+\\/[A-Z]{2,6}$";
-            Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(email);//dunno what it does
-            boolean matchFound = matcher.find();
-
-            if (matchFound) {
-                validated = true;
-            } else {
-                return ("Please, type your email again. Must contain @ numbers and .");
-
-            }
-
-        } while (!validated);
-
-        return email;
-
+    private static Pattern pattern;
+    private static Matcher matcher;
+    
+    public ImportingUtilities(){
+        pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
+    }
+    
+    public boolean email_validator(String email_address) {
+        matcher = pattern.matcher(email_address);
+        return matcher.matches(); 
     }
 
-    public String getUserValidInput(String prompt) {
+    public String get_user_valid_input(String prompt) {
         Scanner myScanner = new Scanner(System.in);
 
         String input = "", inputToLowerCase;
@@ -72,7 +44,7 @@ public class ImportingUtilities {
         return input;
     }
 
-    public String getUserInput(String prompt) {
+    public String get_user_input(String prompt) {
         Scanner myScanner = new Scanner(System.in);
 
         String input = "";
@@ -93,7 +65,7 @@ public class ImportingUtilities {
      * @param maxValue MAximum value allowed
      * @return user Integer value
      */
-    public int GetUserInt(String prompt, int minValue, int maxValue) {
+    public int Get_user_int(String prompt, int minValue, int maxValue) {
         Scanner myScanner = new Scanner(System.in);
         int input = -1;
         boolean valid = false;
@@ -102,7 +74,7 @@ public class ImportingUtilities {
             try {
                 input = myScanner.nextInt();
                 if (input < minValue || input > maxValue) {
-                    System.out.println("The number entered does not correspond to the options above. Please, try again:");
+                    System.out.println("The number entered does not match requimentes. Please, try again:");
                 } else {
 
                     valid = true;
@@ -123,7 +95,7 @@ public class ImportingUtilities {
      * @param minValue Minimum value created as a parameter
      * @return Answer for the user
      */
-    public int getUserMinNumber(String prompt, int minValue) {
+    public int get_user_min_number(String prompt, int minValue) {
         boolean valid = false;
         int value = -1;
         Scanner myScanner = new Scanner(System.in);
@@ -160,7 +132,7 @@ public class ImportingUtilities {
      * @param prompt Message to user
      * @return input, user equation
      */
-    public String getUserEquation(String prompt) {
+    public String get_user_equation(String prompt) {
     Scanner myScanner = new Scanner(System.in);
 
         String input = "";
@@ -173,11 +145,5 @@ public class ImportingUtilities {
 
         return input;
     }
-
-    public static void main(String[] args) {
-        ImportingUtilities myNew = new ImportingUtilities();
-        myNew.line(30, "-");
-    }
-    
 
 }

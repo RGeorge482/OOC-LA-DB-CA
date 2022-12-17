@@ -1,6 +1,6 @@
 /*
-INSERT INTO equationssystem.admin_info(id, admin_name, phone_number, admin_password, email_address)
-VALUES('1', 'CCT', '0000000', 'Dublin', 'email_address');
+INSERT INTO equationssystem.admin_info(id, admin_name, admin_password, email_address)
+VALUES('1', 'CCT', 'Dublin', 'dublin@adinistrator.cct.ie');
 */
 package userclasses;
 
@@ -18,10 +18,9 @@ import java.util.ArrayList;
  */
 public class Administrator implements AdminInterface {
 
-    // Administartor atributes 
+    // Administrator atributes 
     private String name;
     private int id;
-    private int phone_number;
     private String email_address;
     private String admin_password;
     
@@ -31,40 +30,32 @@ public class Administrator implements AdminInterface {
     String PASSWORD = "Dublin";
 
     //THESE METHODS ARE ALLOWED ONCE THE ADMIN IS LOGGED IN 
-     /**
-     * Constructor 
-     *
-     * @param name
-     * @param phone_number 
-     * @param email_address
-     * @param admin_password
-     */
-    public Administrator(String name, int phone_number, String email_address, String admin_password) {
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public Administrator(String name, String email_address, String admin_password) {
         this.name = name;
-        this.phone_number = phone_number;
         this.email_address = email_address;
         this.admin_password = admin_password;
     }
 
-    // This method allows administrator to login
+    @Override
     public boolean admin_login(String name, String admin_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
-        ResultSet rs;//var of type result set as this is the type sql returns
+        ResultSet rs;
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
                 Statement stmt = conn.createStatement();//Creating the queries `statements`
                 ) {
             stmt.execute("USE equationssystem;");
 
-            rs = stmt.executeQuery("SELECT admin_name, admin_password from admin_info"); //rs receiving value from querie
+            rs = stmt.executeQuery("SELECT admin_name, admin_password from admin_info"); //SQL Query for the first line of the DB
 
-            rs.next();//code for the first line of db table
+            rs.next();
             if (rs.getString("admin_name").equalsIgnoreCase(name) && (rs.getString("admin_password").equals(admin_password))) {
                 return true;
             }
-
-            while (rs.next()) {    //rest of the lines for the db table
+            //Code to go through the rest of the DB
+            while (rs.next()) {
                 if (rs.getString("admin_name").equalsIgnoreCase(name) && (rs.getString("admin_password").equals(admin_password))) {
                     return true;
                 }
@@ -76,21 +67,20 @@ public class Administrator implements AdminInterface {
         return false;
     }
 
-    // This method is used to retun a list of users
+    @Override
     public ArrayList<UserInterface> access_list() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ArrayList<UserInterface> users = new ArrayList<>();
 
-        ResultSet rs;//var of type result set as this is the type sql returns
+        ResultSet rs;
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-                Statement stmt = conn.createStatement();//Creating the queries `statements`
+                Statement stmt = conn.createStatement();
                 ) {
             stmt.execute("USE equationssystem;");
 
-            rs = stmt.executeQuery("SELECT * from user_info"); //rs receiving value from querie
+            rs = stmt.executeQuery("SELECT * from user_info"); 
 
-            while (rs.next()) {//loop to get info from the whole databases
+            while (rs.next()) {//loop to get all the user's info
                 users.add(new User(
                         rs.getInt("id"),
                         rs.getString("name"),
@@ -104,29 +94,27 @@ public class Administrator implements AdminInterface {
         } catch (SQLException e) {
             return null;
         }
-        return users;//RETURNED USERS
+        return users;//RETURNES USERS
     }
 
-    // Method used to delete a user from the database
+    @Override
     public void delete(int id) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        String sql = "DELETE FROM user_info WHERE id = ?";
+        String sql = "DELETE FROM user_info WHERE id = ?";//sql query for deletion
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.execute("USE equationssystem;");
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, id);//method receives id of user to be deleted
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println("Operation executed successfully.");
     }
-
-    // Method used to review the equations and final results by the administartor
+    
+    @Override
     public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ArrayList<String> two_var_equations = new ArrayList<>(); // Create an ArrayList for equations with two variables
         ArrayList<String> three_var_equations = new ArrayList<>(); // Create an ArrayList for equations with three variables
         
@@ -159,17 +147,17 @@ public class Administrator implements AdminInterface {
             }
             System.out.println("Three variable equations:");
             for(String three_var : three_var_equations){
-                System.out.println(three_var + " "); // print eqautions and result
+                System.out.println(three_var + " "); // print equations and result
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    // Method to create the table for administartor
+    
+    @Override
     public boolean admin_datadb_setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        String ADMIN_DB_NAME = "admin_info";//need a constructor and than pass a Admin type as par to insert things into db
+        String ADMIN_DB_NAME = "admin_info";
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -182,7 +170,6 @@ public class Administrator implements AdminInterface {
                     "CREATE TABLE IF NOT EXISTS " + ADMIN_DB_NAME + "("
                     + "`id` INT(100) NOT NULL AUTO_INCREMENT,"
                     + "`admin_name` VARCHAR(25),"
-                    + "`phone_number` VARCHAR(10),"
                     + "`admin_password` VARCHAR(20),"
                     + "`email_address` VARCHAR (50),"
                     + "PRIMARY KEY(`id`)"
@@ -195,47 +182,20 @@ public class Administrator implements AdminInterface {
         }
     }
 
-    //Setters and Getters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPhoneNumber() {
-        return phone_number;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phone_number = phoneNumber;
-    }
-
-    public String getEmailAddress() {
-        return email_address;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.email_address = emailAddress;
-    }
-
     // Method to update administrator information
+    @Override
     public String update_admin_info(String columnToBeChanged, String admin_name, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        ResultSet rs;
+            ResultSet rs;
         boolean userExists;
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();//Creating the queries `statements`
-            //IF USER NAME AND EMAIL ADDRESS MATCHES THAN WE ALLOW CHANGES 
             stmt.execute("USE equationssystem;");
 
             rs = stmt.executeQuery("SELECT admin_name FROM admin_info");
 
             rs.next();//code below is for the first line in db
-            //user needs to be in the databases matching email address and name so they can make changes
             if (rs.getString("admin_name").equalsIgnoreCase(admin_name)) {
 
                 stmt.execute("USE equationssystem;");
@@ -248,7 +208,7 @@ public class Administrator implements AdminInterface {
                     stmt.executeUpdate("UPDATE user_info SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "'");
                     return "Updated successfully";
                 }
-            }
+            }//The code above updates only the field desired to be changed
             return "Your administrator details are incorrect. Please try again";
         } catch (SQLException e) {
             e.printStackTrace();

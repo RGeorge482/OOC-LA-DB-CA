@@ -18,7 +18,6 @@ import java.util.ArrayList;
  */
 public class User implements UserInterface {
 
-    // User atributes
     protected int id;
     protected String name;
     protected String surname;
@@ -47,18 +46,9 @@ public class User implements UserInterface {
         this.user_password = user_password;
         this.email_address = email_address;
     }
-
-    /**
-     * Constructor to import data from db with id
-     *
-     * @param id
-     * @param name
-     * @param surname
-     * @param phone_number
-     * @param user_password
-     * @param email_address
-     */
-    public User(int id, String name, String surname, int phone_number, String user_password, String email_address) {//constructor to import data from db with id
+    
+    //constructor to import data from db with id
+    public User(int id, String name, String surname, int phone_number, String user_password, String email_address) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -67,14 +57,12 @@ public class User implements UserInterface {
         this.email_address = email_address;
     }
 
-    // Create database table for user information
     public boolean create_user_table() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();//THIS IS LOADING THE DRIVER INTO OUR PROGRAM
+        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();
-            //THIS METHOD IS USED TO DO THE QUERYES
 
             stmt.execute("USE equationssystem;");
             stmt.execute(
@@ -94,12 +82,12 @@ public class User implements UserInterface {
         }
     }
 
-    // Method used for user register
+    @Override
     public boolean register(User user) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            Statement stmt = conn.createStatement();//Creating the queries `statements`
+            Statement stmt = conn.createStatement();
             stmt.execute("USE equationssystem;");
             stmt.execute(
                     String.format("INSERT INTO user_info (name, surname, phone_number, user_password, email_address) "
@@ -114,7 +102,6 @@ public class User implements UserInterface {
         }
     }
 
-    // Setters and Getters
     public String getUserPassword() {
         return user_password;
     }
@@ -128,25 +115,25 @@ public class User implements UserInterface {
     }
     protected ArrayList<UserInterface> users;
 
-    // method used for user log in
-    public boolean logIn(String name, String user_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    @Override
+    public boolean user_login(String name, String user_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
-        ResultSet rs;//var of type result set as this is the type sql returns
+        ResultSet rs;
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-                Statement stmt = conn.createStatement();//Creating the queries `statements`
+                Statement stmt = conn.createStatement();
                 ) {
             stmt.execute("USE equationssystem;");
 
-            rs = stmt.executeQuery("SELECT name, user_password from user_info"); //rs receiving value from querie
+            rs = stmt.executeQuery("SELECT name, user_password from user_info"); 
 
-            rs.next();//code for the first line of db table
+            rs.next();
             if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("user_password").equals(user_password))) {
                 return true;
             }
 
-            while (rs.next()) {    //rest of the lines for the db table
+            while (rs.next()) { 
                 if (rs.getString("name").equalsIgnoreCase(name) && (rs.getString("user_password").equals(user_password))) {
                     return true;
                 }
@@ -160,21 +147,21 @@ public class User implements UserInterface {
 
     }
 
-    // Method used to change user information
-    public String change_info(String columnToBeChanged, String user_name, String email_address, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    @Override
+    public String update_userinfo(String columnToBeChanged, String user_name, String email_address, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ResultSet rs;
         boolean userExists;
 
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            Statement stmt = conn.createStatement();//Creating the queries `statements`
+            Statement stmt = conn.createStatement();
             //IF USER NAME AND EMAIL ADDRESS MATCHES THAN WE ALLOW CHANGES 
             stmt.execute("USE equationssystem;");
 
             rs = stmt.executeQuery("SELECT name, email_address FROM user_info");
 
-            rs.next();//code below is for the first line in db
+            rs.next();
             //user needs to be in the databases matching email address and name so they can make changes
             if (rs.getString("name").equalsIgnoreCase(user_name) && (rs.getString("email_address").equalsIgnoreCase(email_address))) {
                 String email = "email_address";
@@ -183,7 +170,7 @@ public class User implements UserInterface {
                 stmt.executeUpdate("UPDATE user_info SET " + columnToBeChanged + "='" + new_info + "' WHERE " + columnToBeChanged + "='" + old_info + "' AND " + email + "='" + email_address + "'");
                 return "Updated successfully";
             }
-            while (rs.next()) {//code for the rest of the lines in db
+            while (rs.next()) {
                 if (rs.getString("name").equalsIgnoreCase(user_name) && (rs.getString("email_address").equalsIgnoreCase(email_address))) {
                     String email = "email_address";
 
@@ -200,103 +187,50 @@ public class User implements UserInterface {
     }
 
     @Override
-    public String solveEquationTwoVariables() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String solveEquationThreeVariables() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    // method used to review the equations and final results by the user
     public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         ArrayList<String> two_var_equations = new ArrayList<>();
         ArrayList<String> three_var_equations = new ArrayList<>();
-        
-        ResultSet rs;//var of type result set as this is the type sql returns
+
+        ResultSet rs;
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-                Statement stmt = conn.createStatement();//Creating the queries `statements`
+                Statement stmt = conn.createStatement();
                 ) {
             stmt.execute("USE equationssystem;");
 
-            rs = stmt.executeQuery("SELECT * from two_var_equations"); //rs receiving value from querie
+            rs = stmt.executeQuery("SELECT * from two_var_equations");
 
-            while (rs.next()) {//loop to get info from the whole databases
-                two_var_equations.add(rs.getString("first_equation")); // add to list first equation
-                two_var_equations.add(rs.getString("second_equation")); // add to list second equation
-                two_var_equations.add(rs.getString("equation_final_result")); // add to list final result with x and y values
+            while (rs.next()) {
+                two_var_equations.add(rs.getString("equation_final_result"));//array list adding all equation line by line
             }
             System.out.println("Two variable equations:");
+<<<<<<< HEAD
             for(String two_var : two_var_equations){
                 System.out.println(two_var + " "); // print eqautions and result
                 System.out.println(" "); 
+=======
+            for (String two_var : two_var_equations) {
+                System.out.println(two_var + " ");//printing all results for 2 var equations
+>>>>>>> c215f522fb6dd917868b07a64865f1d6ae9f7951
             }
-            
-            rs = stmt.executeQuery("SELECT * from three_var_equations"); //rs receiving value from querie
-            
+
+            rs = stmt.executeQuery("SELECT * from three_var_equations"); 
+
             while (rs.next()) {//loop to get info from the whole databases
-                three_var_equations.add(rs.getString("first_equation")); // add to list first equation
-                three_var_equations.add(rs.getString("second_equation")); // add to list second equation
-                three_var_equations.add(rs.getString("third_equation"));  // add to list third equation
-                three_var_equations.add(rs.getString("equation_final_result")); // add to list final result with x, y and z values
+                three_var_equations.add(rs.getString("equation_final_result"));
             }
-            System.out.println("Three variable equations:");
-            for(String three_var : three_var_equations){
-                System.out.println(three_var + " "); // print eqautions and result
+            System.out.println("Three variable equations:"); //array list adding all equation line by line
+            for (String three_var : three_var_equations) { //printing all results for 3 var equations
+                System.out.println(three_var + " ");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-    
     }
 
-    // Setters and Getters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public int getPhoneNumber() {
-        return phone_number;
-    }
-
-    public void setPhoneNumber(int phone_number) {
-        this.phone_number = phone_number;
-    }
-
-    public String getPassword() {
-        return user_password;
-    }
-
-    public void setPassword(String user_password) {
-        this.user_password = user_password;
-    }
-
-    // Method to print user attributes
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", phone_number=" + phone_number + ", email_address=" + email_address + " " + '}' + "\n";

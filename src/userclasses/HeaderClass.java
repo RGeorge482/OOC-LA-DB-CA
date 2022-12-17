@@ -10,7 +10,8 @@ package userclasses;
  * @author welli
  */
 public class HeaderClass {
-    public void userMenuOptions(){
+    //headers for every different occasion 
+    public void user_menu_options(){
         System.out.println("");
         System.out.println("------------------------------------");
         System.out.println("   You are logged in as a user");
@@ -23,7 +24,7 @@ public class HeaderClass {
         System.out.println("");
     }
     
-    public void adminMenuOptions(){
+    public void admin_menu_options(){
         System.out.println("------------------------------------");
         System.out.println("You are logged in as an administrator");
         System.out.println("------------------------------------");
@@ -34,7 +35,7 @@ public class HeaderClass {
         System.out.println("-----------------------------------");
     }
     
-    public void accessMenu(){
+    public void access_menu(){
         System.out.println("");
         System.out.println("------------------------------------");
         System.out.println("\tSelect an option:");
@@ -44,7 +45,7 @@ public class HeaderClass {
         System.out.println("");
     }
     
-    public void userLogin(){
+    public void user_login(){
         System.out.println("");
         System.out.println("------------------------------------");
         System.out.println("\t\tUser");

@@ -33,7 +33,7 @@ public class OOCLADBCA {
         
         User myUser = new User(null, null, -1, null, null);
         HeaderClass myHeaders = new HeaderClass();
-        Administrator myAdmin = new Administrator(null, -1, null, null);
+        Administrator myAdmin = new Administrator(null, null, null);
         DatabaseWriter dataOutput = new DatabaseWriter();
         
         UserController myControler = new UserController(myAdmin, myUser, myHeaders, dataOutput, null);
