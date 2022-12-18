@@ -1,4 +1,4 @@
-/*
+    /*
 INSERT INTO equationssystem.admin_info(id, admin_name, admin_password, email_address)
 VALUES('1', 'CCT', 'Dublin', 'dublin@adinistrator.cct.ie');
 */
