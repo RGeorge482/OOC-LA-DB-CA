@@ -140,6 +140,7 @@ public class Administrator implements AdminInterface {
             System.out.println("Two variable equations:");
             for(String two_var : two_var_equations){
                 System.out.println(two_var + " "); // print eqautions and result
+                System.out.println(" ");
             }
             
             rs = stmt.executeQuery("SELECT * from three_var_equations"); //rs receiving value from querie
@@ -153,6 +154,7 @@ public class Administrator implements AdminInterface {
             System.out.println("Three variable equations:");
             for(String three_var : three_var_equations){
                 System.out.println(three_var + " "); // print equations and result
+                System.out.println(" ");
             }
 
         } catch (SQLException e) {
