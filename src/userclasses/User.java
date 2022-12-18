@@ -205,14 +205,10 @@ public class User implements UserInterface {
                 two_var_equations.add(rs.getString("equation_final_result"));//array list adding all equation line by line
             }
             System.out.println("Two variable equations:");
-<<<<<<< HEAD
-            for(String two_var : two_var_equations){
-                System.out.println(two_var + " "); // print eqautions and result
-                System.out.println(" "); 
-=======
+
             for (String two_var : two_var_equations) {
                 System.out.println(two_var + " ");//printing all results for 2 var equations
->>>>>>> c215f522fb6dd917868b07a64865f1d6ae9f7951
+
             }
 
             rs = stmt.executeQuery("SELECT * from three_var_equations"); 
