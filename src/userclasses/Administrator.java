@@ -37,6 +37,8 @@ public class Administrator implements AdminInterface {
         this.admin_password = admin_password;
     }
 
+    
+    // Administrator log in method
     @Override
     public boolean admin_login(String name, String admin_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -67,6 +69,7 @@ public class Administrator implements AdminInterface {
         return false;
     }
 
+    // Allow administartior to access the user list
     @Override
     public ArrayList<UserInterface> access_list() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<UserInterface> users = new ArrayList<>();
@@ -97,6 +100,7 @@ public class Administrator implements AdminInterface {
         return users;//RETURNES USERS
     }
 
+    // Delete users form the database
     @Override
     public void delete(int id) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         String sql = "DELETE FROM user_info WHERE id = ?";//sql query for deletion
@@ -113,6 +117,7 @@ public class Administrator implements AdminInterface {
         System.out.println("Operation executed successfully.");
     }
     
+    // Review all the eqautions and their results
     @Override
     public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<String> two_var_equations = new ArrayList<>(); // Create an ArrayList for equations with two variables
@@ -155,6 +160,7 @@ public class Administrator implements AdminInterface {
         }
     }
     
+    // Create Administrator database
     @Override
     public boolean admin_datadb_setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         String ADMIN_DB_NAME = "admin_info";

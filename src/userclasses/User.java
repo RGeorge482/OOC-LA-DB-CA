@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class User implements UserInterface {
 
+    // User atributes
     protected int id;
     protected String name;
     protected String surname;
@@ -57,6 +58,7 @@ public class User implements UserInterface {
         this.email_address = email_address;
     }
 
+    // Create database table for user information
     public boolean create_user_table() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
@@ -82,6 +84,7 @@ public class User implements UserInterface {
         }
     }
 
+     // Method used for user register
     @Override
     public boolean register(User user) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -115,6 +118,7 @@ public class User implements UserInterface {
     }
     protected ArrayList<UserInterface> users;
 
+    // method used for user log in
     @Override
     public boolean user_login(String name, String user_password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -147,6 +151,7 @@ public class User implements UserInterface {
 
     }
 
+    // Method to update user information
     @Override
     public String update_userinfo(String columnToBeChanged, String user_name, String email_address, String old_info, String new_info) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -186,6 +191,7 @@ public class User implements UserInterface {
         }
     }
 
+    // Method to review all the operation
     @Override
     public void review_operations() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -202,23 +208,30 @@ public class User implements UserInterface {
             rs = stmt.executeQuery("SELECT * from two_var_equations");
 
             while (rs.next()) {
+                two_var_equations.add(rs.getString("first_equation")); // add to list first equation
+                two_var_equations.add(rs.getString("second_equation")); // add to list second equation
                 two_var_equations.add(rs.getString("equation_final_result"));//array list adding all equation line by line
             }
             System.out.println("Two variable equations:");
 
             for (String two_var : two_var_equations) {
                 System.out.println(two_var + " ");//printing all results for 2 var equations
-
+                System.out.println(" ");
             }
 
-            rs = stmt.executeQuery("SELECT * from three_var_equations"); 
+            rs = stmt.executeQuery("SELECT * from three_var_equations");  //rs receiving value from querie
 
             while (rs.next()) {//loop to get info from the whole databases
-                three_var_equations.add(rs.getString("equation_final_result"));
+                three_var_equations.add(rs.getString("first_equation")); // add to list first equation
+                three_var_equations.add(rs.getString("second_equation")); // add to list second equation
+                three_var_equations.add(rs.getString("third_equation"));  // add to list third equation
+                three_var_equations.add(rs.getString("equation_final_result")); // add to list final result with x, y and z values
             }
             System.out.println("Three variable equations:"); //array list adding all equation line by line
             for (String three_var : three_var_equations) { //printing all results for 3 var equations
                 System.out.println(three_var + " ");
+                System.out.println(" ");
+                
             }
 
         } catch (SQLException e) {
@@ -227,6 +240,7 @@ public class User implements UserInterface {
 
     }
 
+    // Method to print user attributes
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", phone_number=" + phone_number + ", email_address=" + email_address + " " + '}' + "\n";
