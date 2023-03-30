@@ -16,7 +16,6 @@ import userclasses.UserController;
  * student number
  * 
  * @Gheorghita Rata 
- * student numbermda21563
  */
 public class OOCLADBCA {
 
